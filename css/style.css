@@ -1,0 +1,12 @@
+
+
+body {
+    background-color: gray;
+}
+
+.espacio-carta {
+    border: 5px solid seashell;
+    width: 97px;
+    height: 151px;
+    margin: 10px;
+  }
