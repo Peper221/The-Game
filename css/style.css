@@ -4,6 +4,31 @@ body {
     background-color: gray;
 }
 
+.superior {
+    display: flex;
+    justify-content: space-between;
+}
+
+.centro {
+    display: flex;
+    justify-content:center;
+}
+
+.inferior {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mano {
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor {
+    width: 90%;
+    margin: 0 auto;
+}
+
 .espacio-carta {
     border: 5px solid seashell;
     width: 97px;
