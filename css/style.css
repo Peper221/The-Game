@@ -22,6 +22,17 @@ body {
 .mano {
     display: flex;
     justify-content: center;
+    max-width: 100%;
+}
+
+.mano .espacio-carta {
+    width: 10%; 
+}
+
+.espacio-carta img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .contenedor {
@@ -34,4 +45,33 @@ body {
     width: 97px;
     height: 151px;
     margin: 10px;
+    position: relative;
+    overflow: hidden;
   }
+
+  @media (max-width: 768px) {
+    .superior, .inferior {
+        justify-content: center;
+    }
+    
+    .centro {
+        justify-content: center;
+    }
+    
+    .mano {
+        margin-top: 100px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mano .espacio-carta {
+        width: 30%;
+        margin: 10px auto;
+        height: 151px;
+        position: relative;
+    }
+
+   .mano .espacio-carta + .espacio-carta {
+        margin-top: -80px;
+    }
+}
