@@ -23,10 +23,12 @@ body {
  .mano {
     display: flex;
     justify-content: center;
-    max-width: 100%;
+    width: 100%;
 } 
 
 .columna1,.columna2, .columna3, .columna4 {
+    flex: 1;
+    /* width: 90%; */
     display: flex;
     justify-content: space-between;
 } 
@@ -48,36 +50,29 @@ body {
     height: 151px;
     margin: 10px auto;
     overflow: hidden; /*evitar desborde de la carta en el contenedor*/
+    position: static;
   }
 
-  /*dispositivos pequeños*/
-  @media (max-width: 768px) {
-    .superior, .inferior {
-        justify-content: center;
-    }
+   
 
-    .centro {
-        justify-content: center;
-    }
-
-    .mano {
-        margin-top: 100px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-    }
-
+  @media (min-width: 844px) {
     .mano .espacio-carta {
-        width: 100%;
-         margin: 10px auto; 
-         height: 151px;
+        /* width: 97px; */
+        width: calc(40% - 20px);
+        
+    }
+  }
+
+  @media (max-width: 844px) {
+    .mano .espacio-carta {
+        /* width: 97px; */
+        width: calc(80% - 20px);
         position: relative;
         transition: top .90s ease-in-out; /*para la transicion de cambio de posicion de las cartas*/
-        transition: width .90s ease-in-out; /*para la transicion de cambio de anchura de las cartas*/
     }
 
     .mano .espacio-carta:hover {
         top: -50px;
-        width: 80%;
      }
 
      .columna1 .espacio-carta:nth-child(2) {
@@ -102,5 +97,71 @@ body {
 
     .columna1,.columna2, .columna3, .columna4 {
         display: block;
+        max-width: 100%;
     }
-}
+  }
+
+  /*dispositivos pequeños*/
+  @media (max-width: 480px) {
+
+    .contenedor {
+        height: 100vh;
+    }
+    .superior, .inferior {
+        justify-content: center;
+    }
+ 
+    .centro {
+        justify-content: center;
+    }
+
+    .mano {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .mano .espacio-carta {
+        /* width: 97px; */
+        width: calc(100% - 20px);
+        /* max-width: 100%; */
+         margin: 10px auto; 
+         height: 151px;
+        position: relative;
+        transition: top .90s ease-in-out; /*para la transicion de cambio de posicion de las cartas*/
+      
+    }
+
+    .mano .espacio-carta:hover {
+        top: -50px;
+         
+     }
+
+     .columna1 .espacio-carta:nth-child(2) {
+        position: relative;
+        top: -130px; /* Ajusta este valor según tus preferencias */
+    }
+    
+    .columna2 .espacio-carta:nth-child(2) {
+        position: relative;
+        top: -130px; /* Ajusta este valor según tus preferencias */
+    }
+ 
+    .columna3 .espacio-carta:nth-child(2) {
+        position: relative;
+        top: -130px; /* Ajusta este valor según tus preferencias */
+    }
+
+    .columna4 .espacio-carta:nth-child(2) {
+        position: relative;
+        top: -130px; /* Ajusta este valor según tus preferencias */
+    }
+
+    .columna1,.columna2, .columna3, .columna4 {
+        display: block;
+        max-width: 100%;
+    }
+  }
+
+
+
