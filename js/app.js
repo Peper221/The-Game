@@ -30,6 +30,7 @@ function moverCarta(espacioCarta) {
 
 
 let mazo = [];
+let barajado = [];
 
 //  ---------- TABLERO INICIAL -----------
 function crearMazo() {
@@ -42,7 +43,16 @@ function crearMazo() {
         mazo.push(carta); 
     }
 }
- 
+
+
+function barajar() {
+    barajado = mazo
+        .map((value) => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+}
+
 crearMazo();
- 
+barajar();
 console.log(mazo);
+console.log(barajado);
