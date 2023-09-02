@@ -27,3 +27,22 @@ function moverCarta(espacioCarta) {
         // Si no hay carta seleccionada o se intenta mover a la misma ubicación, no hacer nada
     }
 }
+
+
+let mazo = [];
+
+//  ---------- TABLERO INICIAL -----------
+function crearMazo() {
+    mazo = [];
+    for(let i = 2; i <= 99; i++){
+        const carta = {
+            numero : i,
+            img: `${i}`
+        }
+        mazo.push(carta); 
+    }
+}
+ 
+crearMazo();
+ 
+console.log(mazo);
