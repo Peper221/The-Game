@@ -31,6 +31,7 @@ function moverCarta(espacioCarta) {
 
 let mazo = [];
 let barajado = [];
+let mano = [];
 
 //  ---------- TABLERO INICIAL -----------
 function crearMazo() {
@@ -52,7 +53,23 @@ function barajar() {
         .map(({ value }) => value);
 }
 
+function servirCartasEnMano(){
+    // Inicializa el arreglo mano con arreglos vacíos
+    for (let i = 0; i < 8; i++) {
+        mano.push([]);
+    }
+
+    for (let i = 0; i < 8; i++) {
+        
+        const primeraCartaBarajada = barajado[0];
+        barajado.shift();
+        mano[i].push(primeraCartaBarajada);
+    }
+}
+
 crearMazo();
 barajar();
+servirCartasEnMano();
 console.log(mazo);
 console.log(barajado);
+console.log(mano);
