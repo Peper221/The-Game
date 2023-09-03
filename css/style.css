@@ -172,7 +172,13 @@ body {
         display: block;
         max-width: 100%;
     }
+
   }
 
 
-
+  .parrafo {
+    margin: 0;
+    height: 160px;
+    width: 100%;
+    background-color: aqua;
+}
