@@ -67,9 +67,27 @@ function servirCartasEnMano(){
     }
 }
 
+function ponerCartasEnMano() {
+    for (let i = 0; i < mano.length; i++) {
+        const espacioMano = document.querySelector(`#mano-${i}`);
+        for (let j = 0; j < mano[i].length; j++) {
+            const carta = mano[i][j];
+            console.log(carta);
+            //crear carta en HTML
+            const cartaHTML = document.createElement("div");
+            const imagen = document.createElement('p');
+            imagen.classList.add('parrafo');
+            imagen.innerText = carta.img;
+            cartaHTML.appendChild(imagen);
+            espacioMano.appendChild(cartaHTML);
+            
+        }
+        
+    }
+}
+
 crearMazo();
 barajar();
 servirCartasEnMano();
-console.log(mazo);
-console.log(barajado);
+ponerCartasEnMano();
 console.log(mano);
