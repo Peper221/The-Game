@@ -4,7 +4,7 @@
  function seleccionarCarta(carta) {
     if (cartaSeleccionada === carta) {
         // Si se hace clic en la misma carta dos veces, deseleccionarla
-        carta.style.border = "5px solid seashell"; // Restaura el borde
+        carta.style.border = "none"; // Restaura el borde
         cartaSeleccionada = null; // Reinicia la variable de selección
     } else if (cartaSeleccionada === null) {
         // Si no hay una carta seleccionada, selecciona esta
@@ -16,22 +16,150 @@
     }
 }
 
+ 
+ 
 function moverCarta(espacioCarta) {
     if (cartaSeleccionada !== null && cartaSeleccionada !== espacioCarta) {
-        // Si hay una carta seleccionada y no es el mismo espacio carta
-        espacioCarta.innerHTML = cartaSeleccionada.innerHTML; // Mueve la imagen
-        cartaSeleccionada.innerHTML = ""; // Elimina la imagen de la carta seleccionada
-        cartaSeleccionada.style.border = "5px solid seashell"; // Restaura el borde
-        cartaSeleccionada = null; // Reinicia la variable
-    } else {
-        // Si no hay carta seleccionada o se intenta mover a la misma ubicación, no hacer nada
+        const carta = {
+            'numero' : parseInt(cartaSeleccionada.dataset.numero),
+            'img' : cartaSeleccionada.dataset.numero
+        };
+        
+        // Obtener el id del elemento padre de espacioCarta
+        const espacioId = espacioCarta.parentNode.id;
+        // Verificar si el espacioCarta es superior1, superior2, inferior1 o inferior2
+        if (espacioId === "superior1" || espacioId === "superior2" || espacioId === "inferior1" || espacioId === "inferior2") {
+            
+            eliminarCartaDeArreglo(cartaSeleccionada.parentNode, cartaSeleccionada);
+            cartaSeleccionada.innerHTML = ""; // Elimina la imagen de la carta seleccionada
+            cartaSeleccionada.style.border = "none"; // Restaura el borde
+            cartaSeleccionada = null; // Reinicia la variable
+            // Agregar carta al arreglo correspondiente
+            switch (espacioId) {
+                case "superior1":
+                    superior1.push(carta);
+                    actualizarHTML(superior1, espacioId);
+                    break;
+                case "superior2":
+                    superior2.push(carta);
+                    actualizarHTML(superior2, espacioId);
+                    break;
+                case "inferior1":
+                    inferior1.push(carta);
+                    actualizarHTML(inferior1, espacioId);
+                    break;
+                case "inferior2":
+                    inferior2.push(carta);
+                    actualizarHTML(inferior2, espacioId);
+                    break;
+            }
+
+           
+        }
     }
 }
+
+function actualizarHTML(arreglo, espacio){
+     // Obtén el espacio correspondiente por su id
+    const espacioDiv = document.querySelector(`#${espacio}`);
+
+    // Elimina todas las cartas HTML anteriores en el espacio
+    const cartasAnteriores = espacioDiv.querySelectorAll('.clase');
+    cartasAnteriores.forEach((cartaHTML) => {
+        espacioDiv.removeChild(cartaHTML);
+    });
+
+    // Obtén la última carta en el arreglo
+    const carta = arreglo[arreglo.length - 1];
+
+    if(carta){
+         // Crea un elemento de carta HTML y agrega la información
+
+        const cartaHTML = crearCartaHTML(carta);
+        cartaHTML.classList.add('clase');
+
+        // Agrega la carta como hijo del espacio correspondiente
+        espacioDiv.appendChild(cartaHTML);
+
+    }
+    
+}
+
+ 
+function eliminarCartaDeArreglo(origen, carta){
+    arreglo = origen.id;
+    if(arreglo.startsWith('mano')){
+        eliminarCartaDeArregloInterno(mano, carta);
+    } else {
+     
+    switch (arreglo) {
+        case "superior1":
+            eliminarCartaDeArregloInterno(superior1, carta);
+            actualizarHTML(superior1, carta.parentNode.id);
+            break;
+        case "superior2":
+            eliminarCartaDeArregloInterno(superior2, carta);
+            actualizarHTML(superior2, carta.parentNode.id);
+            break;
+        case "inferior1":
+            eliminarCartaDeArregloInterno(inferior1, carta);
+            actualizarHTML(inferior1, carta.parentNode.id);
+            break;
+        case "inferior2":
+            eliminarCartaDeArregloInterno(inferior2, carta);
+            actualizarHTML(inferior2, carta.parentNode.id);
+            break;
+         
+    }
+ }
+}
+
+function eliminarCartaDeArregloInterno(arreglo, carta) {
+    for (let i = 0; i < arreglo.length; i++) {
+        
+        if(arreglo[i].numero == parseInt(carta.dataset.numero)){
+            arreglo.splice(i, 1);
+            break;
+        }
+         
+    }
+}
+
+function moverDesdeSuperior(espacio) {
+    // Lógica para mover cartas desde el superior a otros lugares
+    carta  = espacio.lastElementChild;
+    if(cartaSeleccionada == null && espacio.lastElementChild != 'i100'){
+        
+    }else { 
+        moverCarta(carta); 
+
+    }
+    
+}   
+
+function moverDesdeInferior(espacio) {
+    // Lógica para mover cartas desde el superior a otros lugares
+    carta  = espacio.lastElementChild;
+    if(cartaSeleccionada == null && espacio.lastElementChild != 'i1'){
+        
+    }else { 
+        moverCarta(carta); 
+
+    }
+}
+
+
 
 
 let mazo = [];
 let barajado = [];
 let mano = [];
+
+
+let superior1 = [];
+let superior2 = [];
+let inferior1 = [];
+let inferior2 = [];
 
 //  ---------- TABLERO INICIAL -----------
 function crearMazo() {
@@ -45,49 +173,51 @@ function crearMazo() {
     }
 }
 
-
-function barajar() {
+function barajarMazo() {
     barajado = mazo
         .map((value) => ({ value, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ value }) => value);
 }
 
-function servirCartasEnMano(){
-    // Inicializa el arreglo mano con arreglos vacíos
-    for (let i = 0; i < 8; i++) {
-        mano.push([]);
-    }
-
+function servirCartasEnManoArreglo(){
+    // Inicializa el arreglo mano  
+  
+    mano = [];
     for (let i = 0; i < 8; i++) {
         
         const primeraCartaBarajada = barajado[0];
         barajado.shift();
-        mano[i].push(primeraCartaBarajada);
+        mano.push(primeraCartaBarajada);
     }
 }
 
-function ponerCartasEnMano() {
+function crearCartaHTML (carta){
+    //crear carta en HTML
+    const cartaHTML = document.createElement("div");
+    const imagen = document.createElement('p');
+    imagen.classList.add('parrafo');
+    cartaHTML.onclick = () => {
+        seleccionarCarta(cartaHTML);
+    }
+    cartaHTML.dataset.numero = carta.numero;
+    imagen.innerText = carta.img;
+    cartaHTML.appendChild(imagen);
+    return cartaHTML;
+}
+
+function ponerCartasEnManoHTML() {
     for (let i = 0; i < mano.length; i++) {
         const espacioMano = document.querySelector(`#mano-${i}`);
-        for (let j = 0; j < mano[i].length; j++) {
-            const carta = mano[i][j];
-            console.log(carta);
-            //crear carta en HTML
-            const cartaHTML = document.createElement("div");
-            const imagen = document.createElement('p');
-            imagen.classList.add('parrafo');
-            imagen.innerText = carta.img;
-            cartaHTML.appendChild(imagen);
-            espacioMano.appendChild(cartaHTML);
-            
-        }
-        
+            const carta = mano[i];
+            const cartaHTML = crearCartaHTML(carta);
+            espacioMano.appendChild(cartaHTML)
+    
     }
 }
 
 crearMazo();
-barajar();
-servirCartasEnMano();
-ponerCartasEnMano();
-console.log(mano);
+barajarMazo();
+servirCartasEnManoArreglo();
+ponerCartasEnManoHTML();
+ 
