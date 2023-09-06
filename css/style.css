@@ -182,3 +182,14 @@ body {
     width: 100%;
     background-color: aqua;
 }
+
+
+.superior .clase {
+    position: relative;
+    top: -130px;
+}
+
+.inferior .clase {
+    position: relative;
+    top: -130px;
+}
