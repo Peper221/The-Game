@@ -193,3 +193,17 @@ body {
     position: relative;
     top: -130px;
 }
+
+.boton {
+    padding: 10px;
+    border-radius: 10%;
+    background-color: aquamarine;
+    position: relative;
+    top: -90px;
+}
+
+@media (min-width: 844px) {
+    .boton{
+        top: -2px;
+    }
+}
