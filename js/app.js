@@ -40,7 +40,6 @@
                         
                         cartaSeleccionada = null; // Reinicia la variable
                         // Agregar carta al arreglo correspondiente
-                        
                         switch (espacioId) {
                             case "superior1":
                                 superior1.push(carta);
@@ -70,16 +69,15 @@
     }
             
     function validarMovimiento(carta, espacioId) {
-        
+ 
         // Verifica si el espacio es superior1 o superior2
         if (espacioId === "superior1" || espacioId === "superior2") {
             // Verifica si la carta que deseas mover es menor que la última carta en superior1 o superior2
             const ultimaCartaSuperior = espacioId === "superior1" ? superior1[superior1.length - 1] : superior2[superior2.length - 1];
-            
+            console.log('entroup')
             if(!ultimaCartaSuperior){
                 return true;
             }
-
             if (carta.dataset.numero > ultimaCartaSuperior.numero) {
                 // La carta no puede ser colocada en este espacio superior
                 return false;
@@ -100,6 +98,8 @@
                 return false;
             }
         }  
+
+        return true;
     }
 
     function actualizarHTML(arreglo, espacio){
