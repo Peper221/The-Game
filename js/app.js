@@ -23,47 +23,83 @@
                 'numero' : parseInt(cartaSeleccionada.dataset.numero),
                 'img' : cartaSeleccionada.dataset.numero
             };
-            
-            if ( cartaSeleccionada && cartaSeleccionada.parentNode && espacioCarta && espacioCarta.parentNode) {
                     
-            
             // Obtener el id del elemento padre de espacioCarta
             const espacioId = espacioCarta.parentNode.id;
             // Verificar si el espacioCarta es superior1, superior2, inferior1 o inferior2
             if (espacioId === "superior1" || espacioId === "superior2" || espacioId === "inferior1" || espacioId === "inferior2") {
+                console.log(validarMovimiento(cartaSeleccionada, espacioId));
+                if (validarMovimiento(cartaSeleccionada, espacioId)) {
 
-                eliminarCartaDeArreglo(cartaSeleccionada.parentNode, cartaSeleccionada);
-                if(cartaSeleccionada.parentNode && cartaSeleccionada.parentNode.id.startsWith('mano')){
-                    const padreCartaSeleccionada = cartaSeleccionada.parentNode;
-                    padreCartaSeleccionada.removeChild(cartaSeleccionada);
-                }
-                  
-                cartaSeleccionada = null; // Reinicia la variable
-                // Agregar carta al arreglo correspondiente
-                 
-                switch (espacioId) {
-                    case "superior1":
-                        superior1.push(carta);
-                        actualizarHTML(superior1, espacioId);
-                        break;
-                    case "superior2":
-                        superior2.push(carta);
-                        actualizarHTML(superior2, espacioId);
-                        break;
-                    case "inferior1":
-                        inferior1.push(carta);
-                        actualizarHTML(inferior1, espacioId);
-                        break;
-                    case "inferior2":
-                        inferior2.push(carta);
-                        actualizarHTML(inferior2, espacioId);
-                        break;
-                }
+                        eliminarCartaDeArreglo(cartaSeleccionada.parentNode, cartaSeleccionada);
 
+                        if(cartaSeleccionada.parentNode && cartaSeleccionada.parentNode.id.startsWith('mano')){
+                            const padreCartaSeleccionada = cartaSeleccionada.parentNode;
+                            padreCartaSeleccionada.removeChild(cartaSeleccionada);
+                        }
+                        
+                        cartaSeleccionada = null; // Reinicia la variable
+                        // Agregar carta al arreglo correspondiente
+                        
+                        switch (espacioId) {
+                            case "superior1":
+                                superior1.push(carta);
+                                actualizarHTML(superior1, espacioId);
+                                break;
+                            case "superior2":
+                                superior2.push(carta);
+                                actualizarHTML(superior2, espacioId);
+                                break;
+                            case "inferior1":
+                                inferior1.push(carta);
+                                actualizarHTML(inferior1, espacioId);
+                                break;
+                            case "inferior2":
+                                inferior2.push(carta);
+                                actualizarHTML(inferior2, espacioId);
+                                break;
+                        }
+                } else {
+                    cartaSeleccionada = null; // para evitar doble llamado del alert
+                    alert('Movimiento inválido');
+                }
+                
+            }
+
+        }
+    }
             
+    function validarMovimiento(carta, espacioId) {
+        
+        // Verifica si el espacio es superior1 o superior2
+        if (espacioId === "superior1" || espacioId === "superior2") {
+            // Verifica si la carta que deseas mover es menor que la última carta en superior1 o superior2
+            const ultimaCartaSuperior = espacioId === "superior1" ? superior1[superior1.length - 1] : superior2[superior2.length - 1];
+            
+            if(!ultimaCartaSuperior){
+                return true;
+            }
+
+            if (carta.dataset.numero > ultimaCartaSuperior.numero) {
+                // La carta no puede ser colocada en este espacio superior
+                return false;
             }
         }
-        }
+        // Verifica si el espacio es inferior1 o inferior2
+        else if (espacioId === "inferior1" || espacioId === "inferior2") {
+            // Verifica si la carta que deseas mover es mayor que la última carta en inferior1 o inferior2
+            const ultimaCartaInferior = espacioId === "inferior1" ? inferior1[inferior1.length - 1] : inferior2[inferior2.length - 1];
+            
+
+            if(!ultimaCartaInferior){
+                return true;
+            }
+
+            if (carta.dataset.numero < ultimaCartaInferior.numero) {
+                // La carta no puede ser colocada en este espacio inferior
+                return false;
+            }
+        }  
     }
 
     function actualizarHTML(arreglo, espacio){
@@ -159,13 +195,9 @@
         }
     }
 
-
-
-
     let mazo = [];
     let barajado = [];
     let mano = [];
-
 
     let superior1 = [];
     let superior2 = [];
@@ -273,10 +305,7 @@
                     }
                 }
             }
-            console.log(mano);
     }
-
-    
 
     btnTurno.onclick = () =>{
         ponerCartasEnManoHTML();
