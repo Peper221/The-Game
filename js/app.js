@@ -74,13 +74,24 @@
         if (espacioId === "superior1" || espacioId === "superior2") {
             // Verifica si la carta que deseas mover es menor que la última carta en superior1 o superior2
             const ultimaCartaSuperior = espacioId === "superior1" ? superior1[superior1.length - 1] : superior2[superior2.length - 1];
+            
             if(!ultimaCartaSuperior){
                 return true;
             }
+
+            // Para verificar si la diferencia es de 10
+            if ( (carta.dataset.numero - ultimaCartaSuperior.numero ) == 10) {
+                return true;
+            }
+
             if (carta.dataset.numero > ultimaCartaSuperior.numero) {
+                 
                 // La carta no puede ser colocada en este espacio superior
                 return false;
             }
+
+             
+
         }
         // Verifica si el espacio es inferior1 o inferior2
         else if (espacioId === "inferior1" || espacioId === "inferior2") {
@@ -89,6 +100,11 @@
             
 
             if(!ultimaCartaInferior){
+                return true;
+            }
+
+            // Para verificar si la diferencia es de 10
+            if (  ( ultimaCartaInferior.numero - carta.dataset.numero) == 10) {
                 return true;
             }
 
@@ -299,7 +315,7 @@
                         btnTurno.disabled = cartasEnMano === 8;
                     } else {
                         
-                        console.log("El mazo está vacío");
+                        alert("El mazo está vacío");
                          
                     }
                 }
