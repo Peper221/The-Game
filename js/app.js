@@ -74,7 +74,6 @@
         if (espacioId === "superior1" || espacioId === "superior2") {
             // Verifica si la carta que deseas mover es menor que la última carta en superior1 o superior2
             const ultimaCartaSuperior = espacioId === "superior1" ? superior1[superior1.length - 1] : superior2[superior2.length - 1];
-            console.log('entroup')
             if(!ultimaCartaSuperior){
                 return true;
             }
@@ -135,7 +134,7 @@
                 // Comprobar cuántas cartas quedan en la mano
             const cartasEnMano = mano.length;
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
-            btnTurno.disabled = cartasEnMano === 8;
+            btnTurno.disabled = cartasEnMano > 6;
         } else {
         switch (arreglo) {
             case "superior1":
