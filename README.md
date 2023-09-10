@@ -1,2 +1,5 @@
 # The-Game
-06/09/2023 - se unificaron las ramas desarrollo y desarrollo2 con la rama main.
+Fecha de revisión: 11/09/2023.
+
+- Ya se cuenta con la regla de poder tirar con diferencia de 10 puntos.
+- Ya se cuenta con la regla de terminar turno cuando mínimo son 2 cartas las que hemos tirado.
