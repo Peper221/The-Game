@@ -58,6 +58,8 @@
                                 actualizarHTML(inferior2, espacioId);
                                 break;
                         }
+
+                        verificarMovimientosCompatiblesEnPilas();
                 } else {
                     cartaSeleccionada = null; // para evitar doble llamado del alert
                     alert('Movimiento inválido');
@@ -69,7 +71,16 @@
     }
             
     function validarMovimiento(carta, espacioId) {
- 
+         let numeroCarta;
+
+            if (carta instanceof HTMLElement) {
+                // Si carta es un objeto div, obtener el número del dataset
+                numeroCarta = carta.dataset.numero;
+
+            } else {
+                numeroCarta = carta.numero;
+            }
+
         // Verifica si el espacio es superior1 o superior2
         if (espacioId === "superior1" || espacioId === "superior2") {
             // Verifica si la carta que deseas mover es menor que la última carta en superior1 o superior2
@@ -80,40 +91,40 @@
             }
 
             // Para verificar si la diferencia es de 10
-            if ( (carta.dataset.numero - ultimaCartaSuperior.numero ) == 10) {
+            if ( (numeroCarta - ultimaCartaSuperior.numero ) == 10) {
                 return true;
             }
 
-            if (carta.dataset.numero > ultimaCartaSuperior.numero) {
+            if (numeroCarta > ultimaCartaSuperior.numero) {
                  
                 // La carta no puede ser colocada en este espacio superior
                 return false;
             }
-
-             
 
         }
         // Verifica si el espacio es inferior1 o inferior2
         else if (espacioId === "inferior1" || espacioId === "inferior2") {
             // Verifica si la carta que deseas mover es mayor que la última carta en inferior1 o inferior2
             const ultimaCartaInferior = espacioId === "inferior1" ? inferior1[inferior1.length - 1] : inferior2[inferior2.length - 1];
-            
 
             if(!ultimaCartaInferior){
+
                 return true;
             }
 
             // Para verificar si la diferencia es de 10
-            if (  ( ultimaCartaInferior.numero - carta.dataset.numero) == 10) {
+            if (  ( ultimaCartaInferior.numero - numeroCarta) == 10) {
                 return true;
             }
 
-            if (carta.dataset.numero < ultimaCartaInferior.numero) {
+            if (numeroCarta < ultimaCartaInferior.numero) {
+                console.log(numeroCarta);
+
                 // La carta no puede ser colocada en este espacio inferior
                 return false;
             }
-        }  
 
+        }  
         return true;
     }
 
@@ -267,7 +278,7 @@
     let inicioPartida = true;
 
     function ponerCartasEnManoHTML() {
-
+        
 
         if(inicioPartida){
             for (let i = 0; i < mano.length; i++) {
@@ -278,6 +289,8 @@
                 
                 }
                 inicioPartida = false;
+                console.log(barajado);
+
                 return;
         }
             // Obtener cuántas cartas hay actualmente en la mano
@@ -313,6 +326,8 @@
                         const cartasEnMano = mano.length;
                         // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
                         btnTurno.disabled = cartasEnMano === 8;
+                        console.log(barajado);
+
                     } else {
                         
                         alert("El mazo está vacío");
@@ -320,6 +335,29 @@
                     }
                 }
             }
+            verificarMovimientosCompatiblesEnPilas();
+    }
+
+    function verificarMovimientosCompatiblesEnPilas() {
+        const cartasEnMano = mano.length;
+    
+            // Verifica si no puedes jugar ninguna carta en las pilas
+            if(cartasEnMano > 6 || barajado.length == 0){
+            const ningunaCompatible = mano.every((carta) => {
+                return !(
+                    validarMovimiento(carta, "superior1") ||
+                    validarMovimiento(carta, "superior2") ||
+                    validarMovimiento(carta, "inferior1") ||
+                    validarMovimiento(carta, "inferior2")
+                );
+            });
+    
+            if (ningunaCompatible) {
+                let puntaje = mano.length + barajado.length; 
+                alert(`¡Juego finalizado! puntaje: ${puntaje}`);
+                
+            }
+         }
     }
 
     btnTurno.onclick = () =>{
