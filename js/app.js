@@ -35,7 +35,19 @@
 
                         if(cartaSeleccionada.parentNode && cartaSeleccionada.parentNode.id.startsWith('mano')){
                             const padreCartaSeleccionada = cartaSeleccionada.parentNode;
+                            const columna = padreCartaSeleccionada.parentNode;
+                            const mano = columna.parentNode;
+                            
                             padreCartaSeleccionada.removeChild(cartaSeleccionada);
+                            columna.removeChild(padreCartaSeleccionada);
+                            
+                            if(columna.childElementCount === 0){
+                                 mano.removeChild(columna);
+                             } else {
+                                // Cambiar el atributo CSS grid-template-columns de 2fr a 1fr
+                                columna.style.gridTemplateColumns = '1fr';
+                                columna.style.marginRight = '0';
+                              }
                         }
                         
                         cartaSeleccionada = null; // Reinicia la variable
@@ -61,6 +73,7 @@
 
                         verificarMovimientosCompatiblesEnPilas();
                 } else {
+                    cartaSeleccionada.style.border = 'none';
                     cartaSeleccionada = null; // para evitar doble llamado del alert
                     alert('Movimiento inválido');
                 }
@@ -298,6 +311,7 @@
 
             // Calcular cuántas cartas faltan para llenar la mano a 8
             const cartasFaltantes = 8 - cartasEnMano;
+          
             if (cartasFaltantes > 0) {
                 // Obtener los espacios en blanco en la mano
                  const espaciosBlancos = Array.from(document.querySelectorAll('.espacio-mano'))
@@ -338,6 +352,62 @@
             verificarMovimientosCompatiblesEnPilas();
     }
 
+    // function ponerCartasEnManoHTML() {
+    //     // Verificar si es el inicio de la partida
+    //     if (inicioPartida) {
+    //         for (let i = 0; i < mano.length; i++) {
+    //             const espacioMano = document.querySelector(`#mano-${i}`);
+    //             const carta = mano[i];
+    //             const cartaHTML = crearCartaHTML(carta);
+    //             espacioMano.appendChild(cartaHTML);
+    //         }
+    //         inicioPartida = false;
+    //         console.log(barajado);
+    //         return;
+    //     }
+    
+    //     const manoContenedor = document.querySelector('.mano');
+
+    //        // Elimina todas las columnas y espacios de carta existentes en la mano
+    //     while (manoContenedor.firstChild) {
+    //         manoContenedor.removeChild(manoContenedor.firstChild);
+    //     }
+    
+        
+    
+    //     if(barajado.length > 0){
+    //               // Crear las columnas
+    //     for (let i = 0; i < 4; i++) {
+    //         const columna = document.createElement('div');
+    //         columna.classList.add(`columna${i + 1}`);
+    
+    //         for (let j = 0; j < 2; j++) {
+    //             const espacioMano = document.createElement('div');
+    //             espacioMano.classList.add('espacio-carta', 'espacio-mano');
+    //             espacioMano.id = `mano-${i * 2 + j}`;
+    //             columna.appendChild(espacioMano);
+    //         }
+    
+    //         manoContenedor.appendChild(columna);
+    //     }
+    //          // Llenar los espacios en blanco con nuevas cartas si hay suficientes en el mazo
+    //         for (let i = 0; i < 8; i++) {
+    //             const espacioMano = document.getElementById(`mano-${i}`);
+                
+    //             if (espacioMano && barajado.length > 0) {
+    //                 // Tomar una carta del mazo barajado
+    //                 const cartaTomada = barajado.shift();
+    //                 // Agregar la carta a la mano
+    //                 mano.push(cartaTomada);
+    //                 const cartaHTML = crearCartaHTML(cartaTomada);
+    //                 espacioMano.appendChild(cartaHTML);
+    //             }
+    //         }
+    //     }
+       
+    // console.log(mano);
+    // }
+
     function verificarMovimientosCompatiblesEnPilas() {
         const cartasEnMano = mano.length;
     
@@ -371,4 +441,3 @@
         servirCartasEnManoArreglo();
         ponerCartasEnManoHTML();
     });
-    
