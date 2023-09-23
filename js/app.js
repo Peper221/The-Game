@@ -377,10 +377,29 @@
     
             if (ningunaCompatible) {
                 let puntaje = mano.length + barajado.length; 
-                alert(`¡Juego finalizado! puntaje: ${puntaje}`);
+                AlertaFinDeJuego(puntaje);
                 
             }
          }
+    }
+
+    function AlertaFinDeJuego(puntaje){
+        Swal.fire({
+            title: '<strong>Fin del juego</strong>',
+            html:
+              `Tu puntaje es de: <b> ${puntaje}</b> `,
+            showDenyButton: true,
+            showCloseButton: true,
+            focusConfirm: false,
+            denyButtonText: `Cancelar`,
+            confirmButtonText:
+              '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
+            confirmButtonAriaLabel: 'Thumbs up, great!',
+          }).then((result) => {
+            if (result.isConfirmed) {
+                 location.reload(); // se recarga la página
+            }
+          });
     }
 
     btnTurno.onclick = () =>{
@@ -388,9 +407,12 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
- 
+        EmpezarJuego();
+    });
+
+    function EmpezarJuego(){
         crearMazo();
         barajarMazo();
         servirCartasEnManoArreglo();
         ponerCartasEnManoHTML();
-    });
+    }
