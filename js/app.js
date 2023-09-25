@@ -1,6 +1,17 @@
     
     let cartaSeleccionada = null;
     const btnTurno = document.querySelector('#btnTurno');
+    const btnDeshacer = document.querySelector('#btnDeshacer');
+    let movimientosDuranteTurno = []; // Arreglo para almacenar los movimientos
+    let inicioPartida = true;
+    let mazo = [];
+    let barajado = [];
+    let mano = [];
+
+    let superior1 = [];
+    let superior2 = [];
+    let inferior1 = [];
+    let inferior2 = [];
 
     function seleccionarCarta(carta) {
         if (cartaSeleccionada === carta) {
@@ -28,11 +39,13 @@
             const espacioId = espacioCarta.parentNode.id;
             // Verificar si el espacioCarta es superior1, superior2, inferior1 o inferior2
             if (espacioId === "superior1" || espacioId === "superior2" || espacioId === "inferior1" || espacioId === "inferior2") {
-                console.log(validarMovimiento(cartaSeleccionada, espacioId));
+              
                 if (validarMovimiento(cartaSeleccionada, espacioId)) {
 
                         eliminarCartaDeArreglo(cartaSeleccionada.parentNode, cartaSeleccionada);
-
+                        // Registra el movimiento en el arreglo
+                         movimientosDuranteTurno.push(carta);
+                        console.log('movimientos: ' + movimientosDuranteTurno);
                         if(cartaSeleccionada.parentNode && cartaSeleccionada.parentNode.id.startsWith('mano')){
                             const padreCartaSeleccionada = cartaSeleccionada.parentNode;
                             const columna = padreCartaSeleccionada.parentNode;
@@ -45,7 +58,7 @@
                             columna.style.marginRight = '0';
                               
                         }
-                        
+
                         cartaSeleccionada = null; // Reinicia la variable
                         // Agregar carta al arreglo correspondiente
                         switch (espacioId) {
@@ -127,8 +140,6 @@
             }
 
             if (numeroCarta < ultimaCartaInferior.numero) {
-                console.log(numeroCarta);
-
                 // La carta no puede ser colocada en este espacio inferior
                 return false;
             }
@@ -138,9 +149,9 @@
     }
 
     function actualizarHTML(arreglo, espacio){
+
         // Obtén el espacio correspondiente por su id
         const espacioDiv = document.querySelector(`#${espacio}`);
-
         // Elimina todas las cartas HTML anteriores en el espacio
         const cartasAnteriores = espacioDiv.querySelectorAll('.clase');
         cartasAnteriores.forEach((cartaHTML) => {
@@ -171,6 +182,7 @@
             const cartasEnMano = mano.length;
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
             btnTurno.disabled = cartasEnMano > 6;
+            btnDeshacer.disabled = cartasEnMano > 7;
         } else {
         switch (arreglo) {
             case "superior1":
@@ -230,14 +242,79 @@
         }
     }
 
-    let mazo = [];
-    let barajado = [];
-    let mano = [];
+    btnDeshacer.onclick = () => {
+ 
+        // Itera a través de los movimientos registrados durante el turno
+        for (const carta of movimientosDuranteTurno) {
+           
+            // Habilitar los espacios en blanco en la mano (mostrarlos)
+            for (let i = 0; i < 8; i++) {
+                const espacioMano = document.getElementById(`mano-${i}`);
 
-    let superior1 = [];
-    let superior2 = [];
-    let inferior1 = [];
-    let inferior2 = [];
+                if (espacioMano.style.display === 'none') {
+                    espacioMano.style.display = 'block';
+                    espacioMano.parentNode.style.gridTemplateColumns = 'repeat(2,1fr)';
+                    espacioMano.parentNode.style.marginRight = '70px';
+                }
+              
+            }
+
+                // Encontrar la carta en el arreglo correspondiente y agregarla nuevamente a la mano
+                const cartaEnArreglo = encontrarCartaEnArreglo(carta.numero);
+                if (cartaEnArreglo) {
+                    mano.push(cartaEnArreglo);
+                    
+                }
+       
+        }
+
+        actualizarManoHTML();
+    
+        // Limpia los movimientos registrados durante el turno
+        movimientosDuranteTurno.length = 0;
+    
+        // Vuelve a deshabilitar el botón de deshacer
+        btnDeshacer.disabled = true;
+    };
+    
+    function actualizarManoHTML() {
+     // Actualizar el HTML de la mano
+        // Ordenar la mano de menor a mayor
+        mano.sort((a, b) => a.numero - b.numero);
+        for (let i = 0; i < mano.length; i++) {
+            const espacioMano = document.getElementById(`mano-${i}`);
+            espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
+
+            const carta = mano[i];
+            const cartaHTML = crearCartaHTML(carta);
+            espacioMano.appendChild(cartaHTML);
+            
+        }
+            // Comprobar cuántas cartas quedan en la mano
+            const cartasEnMano = mano.length;
+            // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
+            btnTurno.disabled = cartasEnMano === 8;
+    }
+
+    // Función para encontrar una carta en los arreglos
+    function encontrarCartaEnArreglo(numeroCarta) {
+        for (const [nombre, arreglo] of Object.entries({
+            superior1: superior1,
+            superior2: superior2,   
+            inferior1: inferior1,
+            inferior2: inferior2
+        })) {
+            for (const carta of arreglo) {
+                if (carta.numero === parseInt(numeroCarta)) {
+                    // Elimina la carta del arreglo correspondiente
+                    arreglo.splice(arreglo.indexOf(carta), 1);
+                    actualizarHTML(arreglo, nombre);
+                    return carta;
+                }
+            }
+        }
+        return null;
+    }
 
     //  ---------- TABLERO INICIAL -----------
     function crearMazo() {
@@ -284,13 +361,11 @@
         return cartaHTML;
     }
 
-    let inicioPartida = true;
-
     function ponerCartasEnManoHTML() {
-         
-         // Ordenar la mano de menor a mayor
-         mano.sort((a, b) => a.numero - b.numero);
+          
         if(inicioPartida){
+             // Ordenar la mano de menor a mayor
+             mano.sort((a, b) => a.numero - b.numero);
             for (let i = 0; i < mano.length; i++) {
 
                     const espacioMano = document.querySelector(`#mano-${i}`);
@@ -300,7 +375,6 @@
                 
                 }
                 inicioPartida = false;
-                console.log(barajado);
 
                 return;
         }
@@ -354,7 +428,8 @@
                     const cartasEnMano = mano.length;
                     // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
                     btnTurno.disabled = cartasEnMano === 8;
-                    console.log(barajado);
+                    btnDeshacer.disabled = cartasEnMano === 8;
+                    movimientosDuranteTurno = [];
             }
                 
             
