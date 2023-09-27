@@ -258,6 +258,10 @@
     }
 
     btnDeshacer.onclick = () => {
+
+        if(cartaSeleccionada != null){
+            cartaSeleccionada = null;
+        }
  
         // Itera a través de los movimientos registrados durante el turno
         for (const carta of movimientosDuranteTurno) {
@@ -393,6 +397,11 @@
 
                 return;
         }
+            if(cartaSeleccionada != null){
+                cartaSeleccionada = null;
+            }
+ 
+
             // Obtener cuántas cartas hay actualmente en la mano
             const cartasEnMano = mano.length;
 
