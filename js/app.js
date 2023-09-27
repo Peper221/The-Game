@@ -1,4 +1,4 @@
-    
+
     let cartaSeleccionada = null;
     const btnTurno = document.querySelector('#btnTurno');
     const btnDeshacer = document.querySelector('#btnDeshacer');
@@ -84,7 +84,22 @@
                 } else {
                     cartaSeleccionada.style.border = 'none';
                     cartaSeleccionada = null; // para evitar doble llamado del alert
-                    alert('Movimiento inválido');
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                          toast.addEventListener('mouseenter', Swal.stopTimer)
+                          toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                      })
+                      
+                      Toast.fire({
+                        icon: 'warning',
+                        title: 'Movimiento inválido'
+                      })
                 }
                 
             }
