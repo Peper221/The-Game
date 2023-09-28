@@ -13,6 +13,7 @@
                 <div class="espacio-carta" id="superior1" onclick="moverDesdeSuperior(this)">
                         <img src="img/100.png" id="i100" >
                 </div>
+
                 <div class="espacio-carta" id="superior2" onclick="moverDesdeSuperior(this)"> 
                     <img src="img/100.png" id="i100">
                 </div>
@@ -67,13 +68,17 @@
                 </div>   
                  
             </div>
+
+            <div class="contenedor botones">
+                <button disabled class="boton" id="btnTurno"> Terminar turno</button>
+                <button disabled class="boton" id="btnDeshacer">Deshacer</button>
+            </div>
         </div>
-        <div class="contenedor">
-            <button disabled class="boton" id="btnTurno"> Terminar turno</button>
-            
-        </div>
+        
     </main>
 
     <script src="js/app.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
 </body>
 </html>
