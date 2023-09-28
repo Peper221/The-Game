@@ -6,3 +6,5 @@
 14/09/2023 - se unificó la rama desarrollo4 con main.
 
 28/09/2023 - se unificó la rama desarrollo5 con main.
+
+29/08/2023 - se unificó la rama desarrollo6 con main.
