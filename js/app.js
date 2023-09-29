@@ -273,7 +273,6 @@
                 if (espacioMano.style.display === 'none') {
                     espacioMano.style.display = 'block';
                     espacioMano.parentNode.style.gridTemplateColumns = 'repeat(2,1fr)';
-                    espacioMano.parentNode.style.marginRight = '70px';
                 }
               
             }
@@ -416,7 +415,6 @@
                 if (espacioMano.style.display === 'none') {
                     espacioMano.style.display = 'block';
                     espacioMano.parentNode.style.gridTemplateColumns = 'repeat(2,1fr)';
-                    espacioMano.parentNode.style.marginRight = '70px';
                 }
               
             }
