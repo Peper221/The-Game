@@ -30,8 +30,8 @@ body {
 } 
 
 .columna1,.columna2, .columna3, .columna4 {
-     width: 20%;
-     min-width: 97px;
+     width: 100%;
+     min-width: 66px;
      max-width: 200px;
      margin-right: 70px;
      display: grid;
@@ -62,16 +62,17 @@ body {
    
 
   @media (min-width: 844px) {
+    
     .mano .espacio-carta {
-         width: 97px; 
-        /* width: calc(100% - 20px); */
+          width: 97px;  
+         /* width: calc(100% - 10px);  */
         
     }
   }
 
   @media (max-width: 844px) {
     .mano .espacio-carta {
-        min-width: 97px; 
+        min-width: 66px; 
         max-width: calc(80% - 20px); 
         position: relative;
         transition: top .90s ease-in-out; /*para la transicion de cambio de posicion de las cartas*/
@@ -141,19 +142,19 @@ body {
 
     .mano .espacio-carta {
         /* min-width: 97px;  */
-         max-width: calc(80% - 10px); 
+         /* max-width: calc(80% - 10px);  */
         /* max-width: 100%; */
          margin: 10px auto; 
-         height: 151px;
+         /* height: 151px; */
         position: relative;
         transition: top .90s ease-in-out; /*para la transicion de cambio de posicion de las cartas*/
-      
+        width: 100%; /* Ajusta el ancho deseado para dispositivos pequeños */
+        max-width: 60px; /* Ancho máximo de las cartas */
+        height: auto; /* Altura automática para mantener la relación de aspecto */
+        margin: 5px; 
     }
 
-    .mano .espacio-carta:hover {
-        top: -50px;
-         
-     }
+     
 
      .columna1 .espacio-carta:nth-child(2) {
         position: relative;
