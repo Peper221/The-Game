@@ -56,6 +56,7 @@
                            // Cambiar el atributo CSS grid-template-columns de 2fr a 1fr
                             columna.style.gridTemplateColumns = '1fr';
                             columna.style.marginRight = '0';
+                            columna.style.maxWidth = '97px';
                               
                         }
 
@@ -273,6 +274,7 @@
                 if (espacioMano.style.display === 'none') {
                     espacioMano.style.display = 'block';
                     espacioMano.parentNode.style.gridTemplateColumns = 'repeat(2,1fr)';
+                    espacioMano.parentNode.style.maxWidth = '200px';
                 }
               
             }
@@ -415,6 +417,7 @@
                 if (espacioMano.style.display === 'none') {
                     espacioMano.style.display = 'block';
                     espacioMano.parentNode.style.gridTemplateColumns = 'repeat(2,1fr)';
+                    espacioMano.parentNode.style.maxWidth = '200px';
                 }
               
             }
