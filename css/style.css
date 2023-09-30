@@ -33,10 +33,10 @@ body {
      width: 100%;
      min-width: 66px;
      max-width: 200px;
-     margin-right: 70px;
+     /* margin-right: 70px; */
      display: grid;
      grid-template-columns: repeat(2, 1fr);
-     column-gap: 20px;
+     column-gap: 10px;
 } 
 
 .espacio-carta img {
@@ -59,12 +59,13 @@ body {
     position: static;
   }
 
+ 
    
 
   @media (min-width: 844px) {
     
     .mano .espacio-carta {
-          width: 97px;  
+        width: calc(100% - 1px);
          /* width: calc(100% - 10px);  */
         
     }
