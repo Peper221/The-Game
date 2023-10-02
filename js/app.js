@@ -18,7 +18,7 @@
             // Si se hace clic en la misma carta dos veces, deseleccionarla
             carta.style.border = "none"; // Restaura el borde
             cartaSeleccionada = null; // Reinicia la variable de selección
-        } else if (cartaSeleccionada === null) {
+        } else if (cartaSeleccionada === null && !["superior1", "superior2", "inferior1", "inferior2"].includes(carta.parentNode.id)) {
             // Si no hay una carta seleccionada, selecciona esta
             cartaSeleccionada = carta;
             carta.style.border = "2px solid red"; // Cambia el borde para indicar selección
@@ -45,18 +45,37 @@
                         eliminarCartaDeArreglo(cartaSeleccionada.parentNode, cartaSeleccionada);
                         // Registra el movimiento en el arreglo
                          movimientosDuranteTurno.push(carta);
-                        console.log('movimientos: ' + movimientosDuranteTurno);
                         if(cartaSeleccionada.parentNode && cartaSeleccionada.parentNode.id.startsWith('mano')){
                             const padreCartaSeleccionada = cartaSeleccionada.parentNode;
                             const columna = padreCartaSeleccionada.parentNode;
                             
                             padreCartaSeleccionada.removeChild(cartaSeleccionada);
                             padreCartaSeleccionada.style.display = 'none';
-                        
-                           // Cambiar el atributo CSS grid-template-columns de 2fr a 1fr
-                            columna.style.gridTemplateColumns = '1fr';
-                            columna.style.marginRight = '0';
-                            columna.style.maxWidth = '97px';
+               
+                            // Obtiene todos los hijos de columna
+                            var hijos = columna.children;
+
+                            // verificar si todos los hijos tienen "display: none"
+                            var todosTienenDisplayNone = true;
+
+                            // Itera a través de los hijos y verifica el atributo "display"
+                            for (var i = 0; i < hijos.length; i++) {
+                            var estilo = window.getComputedStyle(hijos[i]);
+                            if (estilo.display !== "none") {
+                                todosTienenDisplayNone = false;
+                                break; // Si uno de los hijos no tiene "display: none", ya no es necesario verificar los demás
+                            }
+                            }
+
+                            // Ahora, puedes comprobar el valor de "todosTienenDisplayNone"
+                            if (todosTienenDisplayNone) {
+                                columna.style.display = 'none';
+                            } else {
+                             // Cambiar el atributo CSS grid-template-columns de 2fr a 1fr
+                             columna.style.gridTemplateColumns = '1fr';
+                             columna.style.marginRight = '0';
+                             columna.style.maxWidth = '97px';
+                            }
                               
                         }
 
@@ -258,6 +277,30 @@
         }
     }
 
+    function mostrarContenedores(){
+         // Habilitar los espacios en blanco en la mano (mostrarlos)
+         for (let i = 1; i < 5; i++) {
+            const columna = document.querySelector(`.columna${i}`);  
+            const hijos = columna.querySelectorAll('.espacio-mano');
+            if (columna.style.display === 'none') {
+                columna.style.display = 'grid';
+                columna.style.gridTemplateColumns = 'repeat(2,1fr)';
+                columna.style.maxWidth = '200px';
+            }
+
+             // Itera a través de los hijos de la columna y cambia su estilo de display a "block"
+            for (let j = 0; j < hijos.length; j++) {
+                if(hijos[j].style.display == 'none'){
+                    hijos[j].style.display = 'block';
+                    columna.style.gridTemplateColumns = 'repeat(2,1fr)';
+                    columna.style.maxWidth = '200px';
+                }
+                 
+            }
+          
+        }
+    }
+
     btnDeshacer.onclick = () => {
 
         if(cartaSeleccionada != null){
@@ -266,18 +309,8 @@
  
         // Itera a través de los movimientos registrados durante el turno
         for (const carta of movimientosDuranteTurno) {
-           
-            // Habilitar los espacios en blanco en la mano (mostrarlos)
-            for (let i = 0; i < 8; i++) {
-                const espacioMano = document.getElementById(`mano-${i}`);
 
-                if (espacioMano.style.display === 'none') {
-                    espacioMano.style.display = 'block';
-                    espacioMano.parentNode.style.gridTemplateColumns = 'repeat(2,1fr)';
-                    espacioMano.parentNode.style.maxWidth = '200px';
-                }
-              
-            }
+            mostrarContenedores();
 
                 // Encontrar la carta en el arreglo correspondiente y agregarla nuevamente a la mano
                 const cartaEnArreglo = encontrarCartaEnArreglo(carta.numero);
@@ -410,22 +443,9 @@
             const cartasFaltantes = 8 - cartasEnMano;
            
         
-              // Habilitar los espacios en blanco en la mano (mostrarlos)
-            for (let i = 0; i < 8; i++) {
-                const espacioMano = document.getElementById(`mano-${i}`);
-
-                if (espacioMano.style.display === 'none') {
-                    espacioMano.style.display = 'block';
-                    espacioMano.parentNode.style.gridTemplateColumns = 'repeat(2,1fr)';
-                    espacioMano.parentNode.style.maxWidth = '200px';
-                }
-              
-            }
+            mostrarContenedores();
 
             if (cartasFaltantes > 0) {
-                // Obtener los espacios en blanco en la mano
-                //  const espaciosBlancos = Array.from(document.querySelectorAll('.espacio-mano'))
-                //      .filter(espacio => espacio.childElementCount === 0);
 
                  // Llenar los espacios en blanco con nuevas cartas si hay suficientes en el mazo
                 for (let i = 0; i < cartasFaltantes && barajado.length > 0; i++) {
