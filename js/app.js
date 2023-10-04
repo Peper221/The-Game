@@ -58,6 +58,21 @@
                             // verificar si todos los hijos tienen "display: none"
                             var todosTienenDisplayNone = true;
 
+                            var primerHijo = columna.firstChild.nextElementSibling; //primer hijo de columna
+                        
+                            // Verificar si el elemento a eliminar es el primer hijo
+                            if (primerHijo === padreCartaSeleccionada) {
+                                
+                                // Obtener el segundo elemento en la columna (si existe)
+                                const segundoElemento = columna.querySelector('.espacio-carta:nth-child(2)');
+                                if (segundoElemento) {
+                                    // Ajustar el valor de top del segundo elemento
+                                    segundoElemento.style.top = '0px';
+                                }
+                            } 
+
+
+
                             // Itera a través de los hijos y verifica el atributo "display"
                             for (var i = 0; i < hijos.length; i++) {
                             var estilo = window.getComputedStyle(hijos[i]);
@@ -210,6 +225,7 @@
     }
     
     function eliminarCartaDeArreglo(origen, carta){
+        
         arreglo = origen.id;
         if(arreglo.startsWith('mano')){
             eliminarCartaDeArregloInterno(mano, carta);
@@ -218,6 +234,7 @@
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
             btnTurno.disabled = cartasEnMano > 6;
             btnDeshacer.disabled = cartasEnMano > 7;
+ 
         } else {
         switch (arreglo) {
             case "superior1":
@@ -240,7 +257,11 @@
                 break;
             
          }
+
+    
+
         }
+
     }
 
     function eliminarCartaDeArregloInterno(arreglo, carta) {
@@ -277,30 +298,76 @@
         }
     }
 
-    function mostrarContenedores(){
-         // Habilitar los espacios en blanco en la mano (mostrarlos)
-         for (let i = 1; i < 5; i++) {
-            const columna = document.querySelector(`.columna${i}`);  
+    function mostrarContenedores() {
+        // Verificar el tamaño de la pantalla utilizando una consulta de medios CSS
+        const pantallaGrande = window.matchMedia("(min-width: 845px)").matches;
+    
+        // Habilitar los espacios en blanco en la mano (mostrarlos)
+        for (let i = 1; i < 5; i++) {
+            const columna = document.querySelector(`.columna${i}`);
             const hijos = columna.querySelectorAll('.espacio-mano');
-            if (columna.style.display === 'none') {
+    
+            // Cambiar el atributo display dependiendo del tamaño de la pantalla
+            if (pantallaGrande) {
                 columna.style.display = 'grid';
-                columna.style.gridTemplateColumns = 'repeat(2,1fr)';
+                columna.style.gridTemplateColumns = 'repeat(2, 1fr)';
                 columna.style.maxWidth = '200px';
+            } else {
+                columna.style.display = 'block';
+                columna.style.gridTemplateColumns = ''; // Restablecer las columnas para dispositivos pequeños
+                columna.style.maxWidth = ''; // Restablecer el ancho máximo para dispositivos pequeños
             }
-
-             // Itera a través de los hijos de la columna y cambia su estilo de display a "block"
+    
+            // Itera a través de los hijos de la columna y cambia su estilo de display a "block"
             for (let j = 0; j < hijos.length; j++) {
-                if(hijos[j].style.display == 'none'){
+                if (hijos[j].style.display == 'none') {
                     hijos[j].style.display = 'block';
-                    columna.style.gridTemplateColumns = 'repeat(2,1fr)';
+                    columna.style.gridTemplateColumns = 'repeat(2, 1fr)';
                     columna.style.maxWidth = '200px';
                 }
-                 
+    
+                // Restaura el atributo top del segundo hijo de la columna
+                if (j === 1) {
+                    const segundoElemento = columna.querySelector('.espacio-carta:nth-child(2)');
+                    if (segundoElemento) {
+                        segundoElemento.style.top = '-130px'; // Restaura el valor original
+                    }
+                }
             }
-          
         }
     }
 
+    // Función para manejar cambios en la resolución
+    function cambiarDisplayDeColumnas(mediaQuery) {
+        if (mediaQuery.matches) {
+            // Pantalla es más grande que 844px
+            for (let i = 1; i < 5; i++) {
+                const columna = document.querySelector(`.columna${i}`);  
+                
+                if (columna.style.display === 'grid') {
+                    columna.style.display = 'block';
+                }
+            }
+        } else {
+            // Pantalla es más grande que 844px
+            for (let i = 1; i < 5; i++) {
+                const columna = document.querySelector(`.columna${i}`);  
+                
+                if (columna.style.display === 'block') {
+                    columna.style.display = 'grid';
+                }
+            }
+           
+        }
+    }    
+
+    // Agrega un listener de media query
+        const mediaQuery = window.matchMedia("(max-width: 844px)");
+        mediaQuery.addListener(cambiarDisplayDeColumnas);
+
+        // Llamar a la función inicialmente para aplicar los estilos correctos en función de la resolución actual
+        cambiarDisplayDeColumnas(mediaQuery)
+  
     btnDeshacer.onclick = () => {
 
         if(cartaSeleccionada != null){
