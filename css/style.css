@@ -69,52 +69,56 @@ body {
          /* width: calc(100% - 10px);  */
         
     }
+
+    .columna1,.columna2, .columna3, .columna4 {
+        display: grid;
+    } 
   }
 
   @media (max-width: 844px) {
     .mano .espacio-carta {
-        min-width: 66px; 
+        min-width: 70px; 
         max-width: calc(80% - 20px); 
         position: relative;
-        transition: top .90s ease-in-out; /*para la transicion de cambio de posicion de las cartas*/
     }
 
-    .mano .espacio-carta:hover {
+     /* .mano .espacio-carta:hover {
         top: -50px;
-     }
+     }  */
 
      .columna1 .espacio-carta:nth-child(2) {
         position: relative;
-        top: -130px; /* Ajusta este valor según tus preferencias */
+        top: -130px; 
     }
-    
+
     .columna2 .espacio-carta:nth-child(2) {
         position: relative;
-        top: -130px; /* Ajusta este valor según tus preferencias */
+        top: -130px;
     }
  
-    .columna3 .espacio-carta:nth-child(2) {
+     .columna3 .espacio-carta:nth-child(2) {
         position: relative;
-        top: -130px; /* Ajusta este valor según tus preferencias */
+        top: -130px; 
     }
 
     .columna4 .espacio-carta:nth-child(2) {
         position: relative;
-        top: -130px; /* Ajusta este valor según tus preferencias */
+        top: -130px; 
     }
 
     .columna1,.columna2, .columna3, .columna4 {
+        width: 85px;
         margin-right: 0;
         display: block;
-        max-width: 100%;
-    }
+        max-width: 160px;
+    }  
   }
 
   /*dispositivos pequeños*/
   @media (max-width: 480px) {
 
     .contenedor {
-        height: 100vh;
+       max-height: 100vh;
     }
     .superior, .inferior {
         justify-content: center;
@@ -133,6 +137,7 @@ body {
         margin-top: 50px;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+        gap: 0;
     }
 
 
@@ -142,15 +147,10 @@ body {
     }
 
     .mano .espacio-carta {
-        /* min-width: 97px;  */
-         /* max-width: calc(80% - 10px);  */
-        /* max-width: 100%; */
-         margin: 10px auto; 
-         /* height: 151px; */
+        margin: 10px auto; 
         position: relative;
-        transition: top .90s ease-in-out; /*para la transicion de cambio de posicion de las cartas*/
         width: 100%; /* Ajusta el ancho deseado para dispositivos pequeños */
-        max-width: 60px; /* Ancho máximo de las cartas */
+        /* max-width: 60px;  */
         height: auto; /* Altura automática para mantener la relación de aspecto */
         margin: 5px; 
     }
