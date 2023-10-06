@@ -544,8 +544,9 @@
                     movimientosDuranteTurno = [];
             }
                 
-            
+             
             verificarMovimientosCompatiblesEnPilas();
+            guardarDatosDelJuego();
     }
 
     function verificarMovimientosCompatiblesEnPilas() {
@@ -584,6 +585,8 @@
             confirmButtonAriaLabel: 'Thumbs up, great!',
           }).then((result) => {
             if (result.isConfirmed) {
+                 // Antes de recargar la página, elimina los datos del juego del almacenamiento local
+                 localStorage.removeItem('datosDelJuego');
                  location.reload(); // se recarga la página
             }
           });
@@ -598,8 +601,47 @@
     });
 
     function EmpezarJuego(){
-        crearMazo();
-        barajarMazo();
-        servirCartasEnManoArreglo();
-        ponerCartasEnManoHTML();
+        // Verifica si hay datos previamente guardados
+        cargarDatosDelJuego();
+    }
+
+    // Función para guardar los datos del juego en el almacenamiento local
+    function guardarDatosDelJuego() {
+        const datosDelJuego = {
+        superior1: superior1,
+        superior2: superior2,
+        inferior1: inferior1,
+        inferior2: inferior2,
+        mano: mano,
+        barajado: barajado
+        };
+        localStorage.setItem('datosDelJuego', JSON.stringify(datosDelJuego));
+    }
+
+    // Función para cargar los datos del juego desde el almacenamiento local
+    function cargarDatosDelJuego() {
+        const datosDelJuegoJSON = localStorage.getItem('datosDelJuego');
+        if (datosDelJuegoJSON) {
+        const datosDelJuego = JSON.parse(datosDelJuegoJSON);
+    
+        // Cargar los datos en las variables del juego
+        superior1 = datosDelJuego.superior1;
+        superior2 = datosDelJuego.superior2;
+        inferior1 = datosDelJuego.inferior1;
+        inferior2 = datosDelJuego.inferior2;
+        mano = datosDelJuego.mano;
+        barajado = datosDelJuego.barajado;
+        
+        // Llamar a la función para actualizar la interfaz de usuario con los datos cargados
+        actualizarHTML(superior1, 'superior1');
+        actualizarHTML(superior2, 'superior2');
+        actualizarHTML(inferior1, 'inferior1');
+        actualizarHTML(inferior2, 'inferior2');
+        actualizarManoHTML();
+        } else {
+            crearMazo();
+            barajarMazo();
+            servirCartasEnManoArreglo();
+            ponerCartasEnManoHTML();
+        }
     }
