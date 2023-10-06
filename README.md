@@ -1,6 +1,13 @@
 # The-Game
- Fecha de revisión: 02/10/2023
- - Ajustes para la visualización de dispositivos pequeños.
- - Ajustes para la visualización de dispositivos grandes.
- - Optimización en el posicionamieno de las cartas en las manos cuando se quitan algunas cartas.
- - Correcciones y creación de nueva función para recortar código duplicado.
+
+06/09/2023 - se unificaron las ramas desarrollo y desarrollo2 con la rama main.
+
+09/09/2023 - se unificó la rama desarrollo3 con main.
+
+14/09/2023 - se unificó la rama desarrollo4 con main.
+
+28/09/2023 - se unificó la rama desarrollo5 con main.
+
+29/09/2023 - se unificó la rama desarrollo6 con main.
+
+05/10/2023 - se unificó la rama desarrollo7 con main.
