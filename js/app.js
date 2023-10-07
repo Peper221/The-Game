@@ -298,7 +298,7 @@
         }
     }
 
-    function mostrarContenedores() {
+    function mostrarColumnasEhijos() {
         // Verificar el tamaño de la pantalla utilizando una consulta de medios CSS
         const pantallaGrande = window.matchMedia("(min-width: 845px)").matches;
     
@@ -377,7 +377,7 @@
         // Itera a través de los movimientos registrados durante el turno
         for (const carta of movimientosDuranteTurno) {
 
-            mostrarContenedores();
+            mostrarColumnasEhijos();
 
                 // Encontrar la carta en el arreglo correspondiente y agregarla nuevamente a la mano
                 const cartaEnArreglo = encontrarCartaEnArreglo(carta.numero);
@@ -484,16 +484,7 @@
     function ponerCartasEnManoHTML() {
           
         if(inicioPartida){
-             // Ordenar la mano de menor a mayor
-             mano.sort((a, b) => a.numero - b.numero);
-            for (let i = 0; i < mano.length; i++) {
-
-                    const espacioMano = document.querySelector(`#mano-${i}`);
-                    const carta = mano[i];
-                    const cartaHTML = crearCartaHTML(carta);
-                    espacioMano.appendChild(cartaHTML)
-                
-                }
+                actualizarManoHTML();
                 inicioPartida = false;
 
                 return;
@@ -510,7 +501,7 @@
             const cartasFaltantes = 8 - cartasEnMano;
            
         
-            mostrarContenedores();
+            mostrarColumnasEhijos();
 
             if (cartasFaltantes > 0) {
 
@@ -522,29 +513,15 @@
                     mano.push(cartaTomada);
                 }
 
-                // Ordenar la mano de menor a mayor
-                mano.sort((a, b) => a.numero - b.numero);
-                
-                    // Actualizar el HTML de la mano
-                for (let i = 0; i < mano.length; i++) {
-                    const espacioMano = document.getElementById(`mano-${i}`);
-                    espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
-
-                    const carta = mano[i];
-                    const cartaHTML = crearCartaHTML(carta);
-                    espacioMano.appendChild(cartaHTML);
-                    
-                }
-
-                  // Comprobar cuántas cartas quedan en la mano
-                    const cartasEnMano = mano.length;
-                    // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
-                    btnTurno.disabled = cartasEnMano === 8;
+                    actualizarManoHTML();
+                     // Comprobar cuántas cartas quedan en la mano
+                     const cartasEnMano = mano.length;
                     btnDeshacer.disabled = cartasEnMano === 8;
                     movimientosDuranteTurno = [];
             }
                 
-             
+             console.log(mano);
+             console.log('barajado ' + barajado.length);
             verificarMovimientosCompatiblesEnPilas();
             guardarDatosDelJuego();
     }
@@ -643,5 +620,6 @@
             barajarMazo();
             servirCartasEnManoArreglo();
             ponerCartasEnManoHTML();
+            guardarDatosDelJuego();
         }
     }
