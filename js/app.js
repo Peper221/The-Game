@@ -542,10 +542,38 @@
     
             if (ningunaCompatible) {
                 let puntaje = mano.length + barajado.length; 
-                AlertaFinDeJuego(puntaje);
-                
+
+                if(puntaje == 0) {
+                    AlertaDeJuegoGanado();
+                } else {
+                    AlertaFinDeJuego(puntaje);
+                }
             }
          }
+    }
+     
+    function AlertaDeJuegoGanado(){
+        Swal.fire({
+            title: 'Felicidades, ganaste el juego',
+            width: 600,
+            padding: '3em',
+            color: '#716add',
+            background: '#fff url(/images/trees.png)',
+            confirmButtonText:
+              '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
+            backdrop: `
+              rgba(0,0,123,0.4)
+              url("/img/estrellas.gif")
+              center center
+              no-repeat
+            `
+          }).then((result) => {
+            if (result.isConfirmed) {
+                 // Antes de recargar la página, elimina los datos del juego del almacenamiento local
+                 localStorage.removeItem('datosDelJuego');
+                 location.reload(); // se recarga la página
+            }
+          });
     }
 
     function AlertaFinDeJuego(puntaje){
