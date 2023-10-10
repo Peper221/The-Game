@@ -2,7 +2,19 @@ const superior1 = [{numero: 99},{numero: 90}, {numero: 89}];
 const superior2 = [];
 const inferior1 = [];
 const inferior2 = [];
+let mazo = [];
 
+function crearMazo() {
+   let cartas = [];
+    for(let i = 2; i <= 99; i++){
+        const carta = {
+            numero : i,
+            img: `${i}`
+        }
+        cartas.push(carta); 
+    }
+    return cartas;
+}
 
 function validarMovimiento(carta, espacioId) {
     let numeroCarta;
@@ -60,6 +72,43 @@ function validarMovimiento(carta, espacioId) {
    return true;
 }
 
+function barajarCartas(mazo, semilla) {
+    
+    function generarNumeroPseudoAleatorio(semilla) {
+        let x = Math.sin(semilla++) * 10000;
+        return x - Math.floor(x);
+    }
+
+    const mazoABarajar = [...mazo];
+    let tamañoDeMazo = mazoABarajar.length;
+
+    while (tamañoDeMazo !== 0) {
+        const indiceAleatorio = Math.floor(generarNumeroPseudoAleatorio(semilla) * tamañoDeMazo);
+        tamañoDeMazo--;
+
+        // Intercambia el elemento actual con el elemento aleatorio
+        [mazoABarajar[tamañoDeMazo], mazoABarajar[indiceAleatorio]] = [
+            mazoABarajar[indiceAleatorio],
+            mazoABarajar[tamañoDeMazo],
+        ];
+    }
+
+    return mazoABarajar;
+}
+
+function generarSemillaAleatoria() {
+    return Math.floor(Math.random() * 10000);  
+}
+ 
+
+crearMazo();
+const semilla = generarSemillaAleatoria();
+const barajado = barajarCartas(mazo, semilla);
+
+
 module.exports = {
-    validarMovimiento: validarMovimiento
+    validarMovimiento: validarMovimiento,
+    crearMazo: crearMazo,
+    barajarCartas: barajarCartas,
+    generarSemillaAleatoria: generarSemillaAleatoria
 };
