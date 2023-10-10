@@ -7,6 +7,7 @@
     let mazo = [];
     let barajado = [];
     let mano = [];
+    let semilla;
 
     let superior1 = [];
     let superior2 = [];
@@ -438,21 +439,43 @@
 
     //  ---------- TABLERO INICIAL -----------
     function crearMazo() {
-        mazo = [];
-        for(let i = 2; i <= 99; i++){
-            const carta = {
-                numero : i,
-                img: `${i}`
-            }
-            mazo.push(carta); 
-        }
-    }
+        let cartas = [];
+         for(let i = 2; i <= 99; i++){
+             const carta = {
+                 numero : i,
+                 img: `${i}`
+             }
+             cartas.push(carta); 
+         }
+         return cartas;
+     }
 
-    function barajarMazo() {
-        barajado = mazo
-            .map((value) => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value);
+     function barajarCartas(mazo, semilla) {
+    
+        function generarNumeroPseudoAleatorio(semilla) {
+            let x = Math.sin(semilla++) * 10000;
+            return x - Math.floor(x);
+        }
+    
+        const mazoABarajar = [...mazo];
+        let tamañoDeMazo = mazoABarajar.length;
+    
+        while (tamañoDeMazo !== 0) {
+            const indiceAleatorio = Math.floor(generarNumeroPseudoAleatorio(semilla) * tamañoDeMazo);
+            tamañoDeMazo--;
+    
+            // Intercambia el elemento actual con el elemento aleatorio
+            [mazoABarajar[tamañoDeMazo], mazoABarajar[indiceAleatorio]] = [
+                mazoABarajar[indiceAleatorio],
+                mazoABarajar[tamañoDeMazo],
+            ];
+        }
+    
+        return mazoABarajar;
+    }
+    
+    function generarSemillaAleatoria() {
+        return Math.floor(Math.random() * 10000);  
     }
 
     function servirCartasEnManoArreglo(){
@@ -619,7 +642,8 @@
         inferior2: inferior2,
         mano: mano,
         barajado: barajado,
-        inicioPartida: inicioPartida
+        inicioPartida: inicioPartida,
+        semilla: semilla
         };
         localStorage.setItem('datosDelJuego', JSON.stringify(datosDelJuego));
     }
@@ -638,6 +662,7 @@
         mano = datosDelJuego.mano;
         barajado = datosDelJuego.barajado;
         inicioPartida = datosDelJuego.inicioPartida;
+        semilla = datosDelJuego.semilla;
         
         // Llamar a la función para actualizar la interfaz de usuario con los datos cargados
         actualizarHTML(superior1, 'superior1');
@@ -646,8 +671,9 @@
         actualizarHTML(inferior2, 'inferior2');
         actualizarManoHTML();
         } else {
-            crearMazo();
-            barajarMazo();
+            mazo = crearMazo();
+            semilla = generarSemillaAleatoria();
+            barajado = barajarCartas(mazo, semilla);
             servirCartasEnManoArreglo();
             ponerCartasEnManoHTML();
             guardarDatosDelJuego();
