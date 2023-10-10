@@ -1,4 +1,4 @@
- const { validarMovimiento, crearMazo, generarSemillaAleatoria } = require('./funcionesATest/funciones');
+ const { validarMovimiento, crearMazo, generarSemillaAleatoria, barajarCartas } = require('./funcionesATest/funciones');
  
 describe('Validación de Movimiento', () => {
     it('debe validar un movimiento válido a una pila superior', () => {
@@ -39,5 +39,18 @@ describe('generarSemillaAleatoria', () => {
       const semilla = generarSemillaAleatoria();
       expect(semilla).toBeGreaterThanOrEqual(0); // Verifica que la semilla sea mayor o igual a 0
       expect(semilla).toBeLessThan(10000); // Verifica que la semilla sea menor que 10000
+  });
+});
+
+describe('barajar con la semilla', () => {
+  it('debe barajar un array con una semilla específica', () => {
+      const semilla = 12345; // definir semilla específica
+      const arrayOriginal = [{numero:1, img: '1'}, {numero:2, img: '2'}, {numero:3, img: '3'}, {numero:4, img: '4'}, {numero:5, img: '5'}];
+      const arrayBarajado = barajarCartas(arrayOriginal, semilla);
+      console.log(arrayBarajado);
+      // Definir el orden esperado después del barajado usando la semilla 12345
+      const ordenEsperado = [{numero:4, img: '4'}, {numero:3, img: '3'}, {numero:1, img: '1'}, {numero:5, img: '5'} , {numero:2, img: '2'}];
+
+      expect(arrayBarajado).toEqual(ordenEsperado); // Verificar que el array barajado sea igual al orden esperado
   });
 });
