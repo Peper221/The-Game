@@ -618,7 +618,8 @@
         inferior1: inferior1,
         inferior2: inferior2,
         mano: mano,
-        barajado: barajado
+        barajado: barajado,
+        inicioPartida: inicioPartida
         };
         localStorage.setItem('datosDelJuego', JSON.stringify(datosDelJuego));
     }
@@ -636,6 +637,7 @@
         inferior2 = datosDelJuego.inferior2;
         mano = datosDelJuego.mano;
         barajado = datosDelJuego.barajado;
+        inicioPartida = datosDelJuego.inicioPartida;
         
         // Llamar a la función para actualizar la interfaz de usuario con los datos cargados
         actualizarHTML(superior1, 'superior1');
