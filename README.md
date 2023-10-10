@@ -1,8 +1,15 @@
 # The-Game
 fecha de revisión: 09/10/2023
-  - creada función para guardar datos de partida.
-  - creada función para cargar los dato de partida si hay datos guardados.
-  - Eliminado código repetido.
-  - Cambio en nombre de funciones para ser más claras.
-  - se ha agregado dependencia para probar funciones de js.
-  - se agregado función para mostrar un alerta especial si se gana el juego.
+06/09/2023 - se unificaron las ramas desarrollo y desarrollo2 con la rama main.
+
+09/09/2023 - se unificó la rama desarrollo3 con main.
+
+14/09/2023 - se unificó la rama desarrollo4 con main.
+
+28/09/2023 - se unificó la rama desarrollo5 con main.
+
+29/09/2023 - se unificó la rama desarrollo6 con main.
+
+05/10/2023 - se unificó la rama desarrollo7 con main.
+
+10/10/2023 - se unificó la rama desarrollo8 con main.
