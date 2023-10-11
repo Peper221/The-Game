@@ -543,7 +543,7 @@
                     movimientosDuranteTurno = [];
             }
                 
-             console.log(mano);
+             console.log(barajado);
              console.log('barajado ' + barajado.length);
             verificarMovimientosCompatiblesEnPilas();
             guardarDatosDelJuego();
@@ -599,27 +599,81 @@
           });
     }
 
-    function AlertaFinDeJuego(puntaje){
+    function AlertaFinDeJuego(puntaje) {
         Swal.fire({
-            title: '<strong>Fin del juego</strong>',
-            html:
-              `Tu puntaje es de: <b> ${puntaje}</b> `,
-            showDenyButton: true,
-            showCloseButton: true,
-            focusConfirm: false,
-            denyButtonText: `Cancelar`,
-            confirmButtonText:
-              '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
-            confirmButtonAriaLabel: 'Thumbs up, great!',
-          }).then((result) => {
-            if (result.isConfirmed) {
-                 // Antes de recargar la página, elimina los datos del juego del almacenamiento local
-                 localStorage.removeItem('datosDelJuego');
-                 location.reload(); // se recarga la página
-            }
-          });
-    }
+          title: '<strong>Fin del juego</strong>',
+          html: `Tu puntaje es de: <b> ${puntaje}</b> `,
+          showDenyButton: true,
+          showCloseButton: true,
+          focusConfirm: false,
+          denyButtonText: 'Cancelar',
+          confirmButtonText: '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
+          confirmButtonAriaLabel: 'Thumbs up, great!',
+          denyButtonText: 'Repetir Juego',
+          allowOutsideClick: () => false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Antes de recargar la página, elimina los datos del juego del almacenamiento local
+            localStorage.removeItem('datosDelJuego');
+            location.reload(); // se recarga la página
+          } else if (result.isDenied) {
+             mostrarAlertaSemilla(puntaje);
+          }
+        });
+      }
 
+      function mostrarAlertaSemilla(puntaje) {
+        Swal.fire({
+          title: 'Ingresar la semilla de juego',
+          input: 'text',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Verificar',
+          cancelButtonText: 'Cancelar',
+          allowOutsideClick: () => false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const semillaIngresada = result.value;
+            if (!isNaN(semillaIngresada) && semillaIngresada != null && semillaIngresada != '') {
+                
+                reiniciarPartida(semillaIngresada);
+
+            } else {
+              mostrarAlertaSemilla();
+            }
+          } else {
+            mostrarAlertaFinDeJuego(puntaje);
+          }
+        });
+      }
+      function reiniciarPartida(semillaNueva) {
+        // Limpia el almacenamiento local
+        localStorage.removeItem('datosDelJuego');
+
+        // Restablece todas las variables del juego a sus valores iniciales
+        superior1 = [];
+        superior2 = [];
+        inferior1 = [];
+        inferior2 = [];
+        mano = [];
+        semilla = semillaNueva;
+        inicioPartida = true;
+        
+        mazo = crearMazo();
+        // Baraja nuevamente las cartas con la misma semilla
+        barajado = barajarCartas(mazo, semilla);
+        
+        // Vuelve a servir las cartas en la mano
+        servirCartasEnManoArreglo();
+    
+        // Actualiza la interfaz de usuario
+        ponerCartasEnManoHTML();
+        guardarDatosDelJuego();
+        imprimirSemilla();
+    }
+    
     btnTurno.onclick = () =>{
         ponerCartasEnManoHTML();
     }
@@ -673,8 +727,10 @@
         actualizarManoHTML();
         } else {
             mazo = crearMazo();
+            console.log(mano);
             semilla = generarSemillaAleatoria();
             barajado = barajarCartas(mazo, semilla);
+            console.log(barajado);
             imprimirSemilla();
             servirCartasEnManoArreglo();
             ponerCartasEnManoHTML();
@@ -684,6 +740,7 @@
 
     function imprimirSemilla(){
         const contenedorSemilla = document.querySelector('.semilla');
+        contenedorSemilla.innerHTML = '';
         const parrafoSemilla = document.createElement('P');
         parrafoSemilla.textContent = `Semilla : ${semilla}`;
         contenedorSemilla.appendChild(parrafoSemilla);
