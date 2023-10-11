@@ -10,9 +10,16 @@ body {
     justify-content: space-between;
 }
 
-.centro {
+.centro{
     display: flex;
-    justify-content:center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.semilla p {
+     color: antiquewhite;
+     font-size: 20px;
 }
 
 .inferior {
@@ -58,9 +65,7 @@ body {
     overflow: hidden; /*evitar desborde de la carta en el contenedor*/
     position: static;
   }
-
  
-   
 
   @media (min-width: 844px) {
     
