@@ -449,26 +449,19 @@
          }
          return cartas;
      }
+     function generarNumeroPseudoAleatorio(semilla) {
+        let x = Math.sin(semilla++) * 10000;
+        return x - Math.floor(x);
+    }
 
      function barajarCartas(mazo, semilla) {
-    
-        function generarNumeroPseudoAleatorio(semilla) {
-            let x = Math.sin(semilla++) * 10000;
-            return x - Math.floor(x);
-        }
     
         const mazoABarajar = [...mazo];
         let tamañoDeMazo = mazoABarajar.length;
     
-        while (tamañoDeMazo !== 0) {
-            const indiceAleatorio = Math.floor(generarNumeroPseudoAleatorio(semilla) * tamañoDeMazo);
-            tamañoDeMazo--;
-    
-            // Intercambia el elemento actual con el elemento aleatorio
-            [mazoABarajar[tamañoDeMazo], mazoABarajar[indiceAleatorio]] = [
-                mazoABarajar[indiceAleatorio],
-                mazoABarajar[tamañoDeMazo],
-            ];
+        for (let i = tamañoDeMazo - 1; i > 0; i--) {
+            const j = Math.floor(generarNumeroPseudoAleatorio(semilla + i) * (i + 1));
+            [mazoABarajar[i], mazoABarajar[j]] = [mazoABarajar[j], mazoABarajar[i]];
         }
     
         return mazoABarajar;
