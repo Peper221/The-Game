@@ -399,22 +399,28 @@
     };
     
     function actualizarManoHTML() {
-     // Actualizar el HTML de la mano
-        // Ordenar la mano de menor a mayor
-        mano.sort((a, b) => a.numero - b.numero);
-        for (let i = 0; i < mano.length; i++) {
-            const espacioMano = document.getElementById(`mano-${i}`);
-            espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
+  
+        if(mano.length > 0){
+             mano.sort((a, b) => a.numero - b.numero);
+            for (let i = 0; i < mano.length; i++) {
+                const espacioMano = document.getElementById(`mano-${i}`);
+                espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
 
-            const carta = mano[i];
-            const cartaHTML = crearCartaHTML(carta);
-            espacioMano.appendChild(cartaHTML);
-            
-        }
+                const carta = mano[i];
+                const cartaHTML = crearCartaHTML(carta);
+                espacioMano.appendChild(cartaHTML);
+                
+            }
             // Comprobar cuántas cartas quedan en la mano
             const cartasEnMano = mano.length;
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
             btnTurno.disabled = cartasEnMano === 8;
+        } else {
+            for (let i = 0; i < 8; i++) {
+                const espacioMano = document.getElementById(`mano-${i}`);
+                espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
+            }
+        }
     }
 
     // Función para encontrar una carta en los arreglos
@@ -450,7 +456,7 @@
          return cartas;
      }
      function generarNumeroPseudoAleatorio(semilla) {
-        let x = Math.sin(semilla++) * 10000;
+        let x = Math.sin(semilla) * 10000;
         return x - Math.floor(x);
     }
 
@@ -650,10 +656,18 @@
         superior2 = [];
         inferior1 = [];
         inferior2 = [];
+        mazo = [];
         mano = [];
         semilla = semillaNueva;
         inicioPartida = true;
         
+        actualizarHTML(superior1, 'superior1');
+        actualizarHTML(superior2, 'superior2');
+        actualizarHTML(inferior1, 'inferior1');
+        actualizarHTML(inferior2, 'inferior2');
+        imprimirSemilla();
+        actualizarManoHTML();
+
         mazo = crearMazo();
         // Baraja nuevamente las cartas con la misma semilla
         barajado = barajarCartas(mazo, semilla);
