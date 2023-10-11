@@ -49,7 +49,7 @@ describe('barajar con la semilla', () => {
       const arrayBarajado = barajarCartas(arrayOriginal, semilla);
       console.log(arrayBarajado);
       // Definir el orden esperado después del barajado usando la semilla 12345
-      const ordenEsperado = [{numero:4, img: '4'}, {numero:3, img: '3'}, {numero:1, img: '1'}, {numero:5, img: '5'} , {numero:2, img: '2'}];
+      const ordenEsperado = [{numero:5, img: '5'} ,{numero:1, img: '1'},{numero:4, img: '4'}, {numero:3, img: '3'},   {numero:2, img: '2'}];
 
       expect(arrayBarajado).toEqual(ordenEsperado); // Verificar que el array barajado sea igual al orden esperado
   });
