@@ -73,7 +73,7 @@ function validarMovimiento(carta, espacioId) {
 }
 
 function generarNumeroPseudoAleatorio(semilla) {
-    let x = Math.sin(semilla++) * 10000;
+    let x = Math.sin(semilla) * 10000;
     return x - Math.floor(x);
  
 }
