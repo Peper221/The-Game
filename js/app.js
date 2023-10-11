@@ -669,13 +669,22 @@
         actualizarHTML(superior2, 'superior2');
         actualizarHTML(inferior1, 'inferior1');
         actualizarHTML(inferior2, 'inferior2');
+        imprimirSemilla();
         actualizarManoHTML();
         } else {
             mazo = crearMazo();
             semilla = generarSemillaAleatoria();
             barajado = barajarCartas(mazo, semilla);
+            imprimirSemilla();
             servirCartasEnManoArreglo();
             ponerCartasEnManoHTML();
             guardarDatosDelJuego();
         }
+    }
+
+    function imprimirSemilla(){
+        const contenedorSemilla = document.querySelector('.semilla');
+        const parrafoSemilla = document.createElement('P');
+        parrafoSemilla.textContent = `Semilla : ${semilla}`;
+        contenedorSemilla.appendChild(parrafoSemilla);
     }
