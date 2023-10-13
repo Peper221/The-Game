@@ -415,6 +415,7 @@
             const cartasEnMano = mano.length;
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
             btnTurno.disabled = cartasEnMano === 8;
+            btnDeshacer.disabled = cartasEnMano === 8;
         } else {
             for (let i = 0; i < 8; i++) {
                 const espacioMano = document.getElementById(`mano-${i}`);
@@ -660,14 +661,12 @@
         mano = [];
         semilla = semillaNueva;
         inicioPartida = true;
-        
+        actualizarManoHTML();
+        mostrarColumnasEhijos();
         actualizarHTML(superior1, 'superior1');
         actualizarHTML(superior2, 'superior2');
         actualizarHTML(inferior1, 'inferior1');
         actualizarHTML(inferior2, 'inferior2');
-        imprimirSemilla();
-        actualizarManoHTML();
-
         mazo = crearMazo();
         // Baraja nuevamente las cartas con la misma semilla
         barajado = barajarCartas(mazo, semilla);
@@ -679,6 +678,8 @@
         ponerCartasEnManoHTML();
         guardarDatosDelJuego();
         imprimirSemilla();
+        actualizarManoHTML();
+
     }
     
     btnTurno.onclick = () =>{
