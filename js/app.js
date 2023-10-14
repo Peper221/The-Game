@@ -7,6 +7,7 @@
     let mazo = [];
     let barajado = [];
     let mano = [];
+    let semilla;
 
     let superior1 = [];
     let superior2 = [];
@@ -398,22 +399,29 @@
     };
     
     function actualizarManoHTML() {
-     // Actualizar el HTML de la mano
-        // Ordenar la mano de menor a mayor
-        mano.sort((a, b) => a.numero - b.numero);
-        for (let i = 0; i < mano.length; i++) {
-            const espacioMano = document.getElementById(`mano-${i}`);
-            espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
+  
+        if(mano.length > 0){
+             mano.sort((a, b) => a.numero - b.numero);
+            for (let i = 0; i < mano.length; i++) {
+                const espacioMano = document.getElementById(`mano-${i}`);
+                espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
 
-            const carta = mano[i];
-            const cartaHTML = crearCartaHTML(carta);
-            espacioMano.appendChild(cartaHTML);
-            
-        }
+                const carta = mano[i];
+                const cartaHTML = crearCartaHTML(carta);
+                espacioMano.appendChild(cartaHTML);
+                
+            }
             // Comprobar cuántas cartas quedan en la mano
             const cartasEnMano = mano.length;
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
             btnTurno.disabled = cartasEnMano === 8;
+            btnDeshacer.disabled = cartasEnMano === 8;
+        } else {
+            for (let i = 0; i < 8; i++) {
+                const espacioMano = document.getElementById(`mano-${i}`);
+                espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
+            }
+        }
     }
 
     // Función para encontrar una carta en los arreglos
@@ -438,21 +446,36 @@
 
     //  ---------- TABLERO INICIAL -----------
     function crearMazo() {
-        mazo = [];
-        for(let i = 2; i <= 99; i++){
-            const carta = {
-                numero : i,
-                img: `${i}`
-            }
-            mazo.push(carta); 
-        }
+        let cartas = [];
+         for(let i = 2; i <= 99; i++){
+             const carta = {
+                 numero : i,
+                 img: `${i}`
+             }
+             cartas.push(carta); 
+         }
+         return cartas;
+     }
+     function generarNumeroPseudoAleatorio(semilla) {
+        let x = Math.sin(semilla) * 10000;
+        return x - Math.floor(x);
     }
 
-    function barajarMazo() {
-        barajado = mazo
-            .map((value) => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value);
+     function barajarCartas(mazo, semilla) {
+    
+        const mazoABarajar = [...mazo];
+        let tamañoDeMazo = mazoABarajar.length;
+    
+        for (let i = tamañoDeMazo - 1; i > 0; i--) {
+            const j = Math.floor(generarNumeroPseudoAleatorio(semilla + i) * (i + 1));
+            [mazoABarajar[i], mazoABarajar[j]] = [mazoABarajar[j], mazoABarajar[i]];
+        }
+    
+        return mazoABarajar;
+    }
+    
+    function generarSemillaAleatoria() {
+        return Math.floor(Math.random() * 10000);  
     }
 
     function servirCartasEnManoArreglo(){
@@ -520,7 +543,7 @@
                     movimientosDuranteTurno = [];
             }
                 
-             console.log(mano);
+             console.log(barajado);
              console.log('barajado ' + barajado.length);
             verificarMovimientosCompatiblesEnPilas();
             guardarDatosDelJuego();
@@ -576,27 +599,89 @@
           });
     }
 
-    function AlertaFinDeJuego(puntaje){
+    function AlertaFinDeJuego(puntaje) {
         Swal.fire({
-            title: '<strong>Fin del juego</strong>',
-            html:
-              `Tu puntaje es de: <b> ${puntaje}</b> `,
-            showDenyButton: true,
-            showCloseButton: true,
-            focusConfirm: false,
-            denyButtonText: `Cancelar`,
-            confirmButtonText:
-              '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
-            confirmButtonAriaLabel: 'Thumbs up, great!',
-          }).then((result) => {
-            if (result.isConfirmed) {
-                 // Antes de recargar la página, elimina los datos del juego del almacenamiento local
-                 localStorage.removeItem('datosDelJuego');
-                 location.reload(); // se recarga la página
-            }
-          });
-    }
+          title: '<strong>Fin del juego</strong>',
+          html: `Tu puntaje es de: <b> ${puntaje}</b> `,
+          showDenyButton: true,
+          showCloseButton: true,
+          focusConfirm: false,
+          denyButtonText: 'Cancelar',
+          confirmButtonText: '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
+          confirmButtonAriaLabel: 'Thumbs up, great!',
+          denyButtonText: 'Repetir Juego',
+          allowOutsideClick: () => false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Antes de recargar la página, elimina los datos del juego del almacenamiento local
+            localStorage.removeItem('datosDelJuego');
+            location.reload(); // se recarga la página
+          } else if (result.isDenied) {
+             mostrarAlertaSemilla(puntaje);
+          }
+        });
+      }
 
+      function mostrarAlertaSemilla(puntaje) {
+        Swal.fire({
+          title: 'Ingresar la semilla de juego',
+          input: 'text',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Verificar',
+          cancelButtonText: 'Cancelar',
+          allowOutsideClick: () => false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const semillaIngresada = result.value;
+            if (!isNaN(semillaIngresada) && semillaIngresada != null && semillaIngresada != '') {
+                
+                reiniciarPartida(semillaIngresada);
+
+            } else {
+              mostrarAlertaSemilla();
+            }
+          } else {
+            mostrarAlertaFinDeJuego(puntaje);
+          }
+        });
+      }
+      function reiniciarPartida(semillaNueva) {
+        // Limpia el almacenamiento local
+        localStorage.removeItem('datosDelJuego');
+
+        // Restablece todas las variables del juego a sus valores iniciales
+        superior1 = [];
+        superior2 = [];
+        inferior1 = [];
+        inferior2 = [];
+        mazo = [];
+        mano = [];
+        semilla = semillaNueva;
+        inicioPartida = true;
+        actualizarManoHTML();
+        mostrarColumnasEhijos();
+        actualizarHTML(superior1, 'superior1');
+        actualizarHTML(superior2, 'superior2');
+        actualizarHTML(inferior1, 'inferior1');
+        actualizarHTML(inferior2, 'inferior2');
+        mazo = crearMazo();
+        // Baraja nuevamente las cartas con la misma semilla
+        barajado = barajarCartas(mazo, semilla);
+        
+        // Vuelve a servir las cartas en la mano
+        servirCartasEnManoArreglo();
+    
+        // Actualiza la interfaz de usuario
+        ponerCartasEnManoHTML();
+        guardarDatosDelJuego();
+        imprimirSemilla();
+        actualizarManoHTML();
+
+    }
+    
     btnTurno.onclick = () =>{
         ponerCartasEnManoHTML();
     }
@@ -618,7 +703,9 @@
         inferior1: inferior1,
         inferior2: inferior2,
         mano: mano,
-        barajado: barajado
+        barajado: barajado,
+        inicioPartida: inicioPartida,
+        semilla: semilla
         };
         localStorage.setItem('datosDelJuego', JSON.stringify(datosDelJuego));
     }
@@ -636,18 +723,33 @@
         inferior2 = datosDelJuego.inferior2;
         mano = datosDelJuego.mano;
         barajado = datosDelJuego.barajado;
+        inicioPartida = datosDelJuego.inicioPartida;
+        semilla = datosDelJuego.semilla;
         
         // Llamar a la función para actualizar la interfaz de usuario con los datos cargados
         actualizarHTML(superior1, 'superior1');
         actualizarHTML(superior2, 'superior2');
         actualizarHTML(inferior1, 'inferior1');
         actualizarHTML(inferior2, 'inferior2');
+        imprimirSemilla();
         actualizarManoHTML();
         } else {
-            crearMazo();
-            barajarMazo();
+            mazo = crearMazo();
+            console.log(mano);
+            semilla = generarSemillaAleatoria();
+            barajado = barajarCartas(mazo, semilla);
+            console.log(barajado);
+            imprimirSemilla();
             servirCartasEnManoArreglo();
             ponerCartasEnManoHTML();
             guardarDatosDelJuego();
         }
+    }
+
+    function imprimirSemilla(){
+        const contenedorSemilla = document.querySelector('.semilla');
+        contenedorSemilla.innerHTML = '';
+        const parrafoSemilla = document.createElement('P');
+        parrafoSemilla.textContent = `Semilla : ${semilla}`;
+        contenedorSemilla.appendChild(parrafoSemilla);
     }
