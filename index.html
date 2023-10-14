@@ -1,86 +1,38 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Game</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Bienvenid@ a THE GAME</title>
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
-<body>
-    <main class="tablero">
-        <div class="contenedor">
-            <div class="superior">
-                <div class="espacio-carta" id="superior1" onclick="moverDesdeSuperior(this)">
-                        <img src="img/100.png" id="i100" >
+<body class="cuerpo">
+    <div class="container mt-5">
+        <h1 class="estilo-h1">THE GAME</h1>
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+                <div class="custom-div p-4 mb-4 bg-primary text-white">
+                    <h2>Empezar juego normal</h2>
+                    <p>Inicie el juego con una semilla aleatoria.</p>
                 </div>
-
-                <div class="espacio-carta" id="superior2" onclick="moverDesdeSuperior(this)"> 
-                    <img src="img/100.png" id="i100">
-                </div>
-                
             </div>
-    
-            <div class="centro">
-                <div class="espacio-carta">
-                    <img src="img/TheGame.png" alt="imagen trasera de la carta">    
-                            
+            <div class="col-lg-4 col-md-12">
+                <div class="custom-div p-4 mb-4 bg-secondary text-white">
+                    <h2>Jugar con semilla</h2>
+                    <p>Ingrese una semilla específica.</p>
                 </div>
-                <div class="semilla"></div> 
-            </div>
-    
-            <div class="inferior">
-                <div class="espacio-carta" id="inferior1" onclick="moverDesdeInferior(this)"> 
-                    <img src="img/1.png" id="i1">
-                   
-                </div>
-                <div class="espacio-carta" id="inferior2"  onclick="moverDesdeInferior(this)">
-                    <img src="img/1.png" id="i1">
-              
-                </div>
-    
-            </div>
-    
-            <div class="mano">
-                <div class="columna1">
-                    <div class="espacio-carta espacio-mano" id="mano-0">
-                    </div>
-                    <div class="espacio-carta espacio-mano" id="mano-1">
-                    </div>
-                </div>
-                
-                <div class="columna2">
-                    <div class="espacio-carta espacio-mano" id="mano-2">
-                    </div>
-                    <div class="espacio-carta espacio-mano" id="mano-3">
-                    </div>
-                </div>
-
-                <div class="columna3">
-                    <div class="espacio-carta espacio-mano" id="mano-4">
-                    </div>
-                    <div class="espacio-carta espacio-mano" id="mano-5"> 
-                    </div>
-                </div>
-
-                <div class="columna4">
-                    <div class="espacio-carta espacio-mano" id="mano-6" > 
-                    </div>
-                    <div class="espacio-carta espacio-mano" id="mano-7"> 
-                    </div>
-                </div>   
-                 
             </div>
 
-            <div class="contenedor botones">
-                <button disabled class="boton" id="btnTurno"> Terminar turno</button>
-                <button disabled class="boton" id="btnDeshacer">Deshacer</button>
+            <div class="col-lg-4 col-md-12">
+                <div class="custom-div p-4 mb-4 bg-primary text-white">
+                    <h2>Reglas del juego</h2>
+                    <p>Seleccione para ver instrucciones y reglas del juego.</p>
+                </div>
             </div>
         </div>
-        
-    </main>
+    </div>
 
-    <script src="js/app.js"></script>
-    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
