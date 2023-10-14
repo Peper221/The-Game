@@ -1,0 +1,25 @@
+
+/* Estilos seleccion de juego */
+
+.cuerpo {
+    background-color: cornflowerblue;
+}
+
+.custom-div {
+    transition: transform 0.3s, background-color 0.3s;
+}
+.custom-div:hover {
+    transform: scale(1.1);
+    background-color: #f5a623; /* Cambiar el color al pasar el cursor */
+}
+
+/* Estiliza el elemento h1 con la clase "estilo-h1" */
+.estilo-h1 {
+    color: antiquewhite; /* Cambia el color del texto */
+    font-size: 50px; /* Cambia el tamaño de fuente */
+    font-family: Arial, sans-serif; /* Cambia la fuente */
+    text-align: center; /* Centra el texto */
+    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+    text-decoration: underline; /* Subraya el texto */
+    margin-bottom: 10px;
+}
