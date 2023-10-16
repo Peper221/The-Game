@@ -12,7 +12,7 @@
         <h1 class="estilo-h1">THE GAME</h1>
         <div class="row">
             <div class="col-lg-4 col-md-12">
-                <a href="juego.html">
+                <a href="formulario.html?opcion=normal" onclick="confirmarNuevaPartida(event)">
                     <div class="custom-div p-4 mb-4 bg-primary text-white">
                         <h2>Empezar juego normal</h2>
                         <p>Inicie el juego con una semilla aleatoria.</p>
@@ -21,10 +21,13 @@
  
             </div>
             <div class="col-lg-4 col-md-12">
-                <div class="custom-div p-4 mb-4 bg-secondary text-white">
-                    <h2>Jugar con semilla</h2>
-                    <p>Ingrese una semilla específica.</p>
-                </div>
+                <a href="formulario.html?opcion=manual" onclick="confirmarNuevaPartida(event)">
+                    <div class="custom-div p-4 mb-4 bg-secondary text-white">
+                        <h2>Jugar con semilla</h2>
+                        <p>Ingrese una semilla específica.</p>
+                    </div>
+                </a>
+                 
             </div>
 
             <div class="col-lg-4 col-md-12">
@@ -39,6 +42,59 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const datosDelJuegoJSON = localStorage.getItem('datosDelJuego');
+
+        if (datosDelJuegoJSON) {
+            const padre = document.querySelector(".row");
+
+            const reanudarLink = document.createElement("DIV");
+            reanudarLink.innerHTML = `
+                <div class="col-lg-3 col-md-12">
+                    <a href="/juego.html">
+                        <div class="custom-div p-4 mb-4 bg-primary text-white">
+                            <h2>Reanudar Partida</h2>
+                            <p>Reanudar la partida previa.</p>
+                        </div>
+                    </a>
+    
+                </div>
+            `;
+            const primerHijo = padre.firstChild;
+            padre.insertBefore(reanudarLink, primerHijo);
+            }
+        });
+
+        function confirmarNuevaPartida(event) {
+
+        event.preventDefault();
+        const datosDelJuegoJSON = localStorage.getItem('datosDelJuego');
+        const url = event.currentTarget.getAttribute('href');
+        if (datosDelJuegoJSON) {
+                Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Iniciar una nueva partida eliminará los datos de la partida actual.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, empezar nueva partida',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('datosDelJuego'); 
+                    window.location.href = url;
+
+                }
+            });
+        } else {
+            
+            window.location.href = url;
+        }
+ 
+    }
+    </script>
+
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
