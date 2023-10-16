@@ -8,6 +8,7 @@
     let barajado = [];
     let mano = [];
     let semilla;
+    let usuario;
 
     let superior1 = [];
     let superior2 = [];
@@ -567,8 +568,12 @@
                 let puntaje = mano.length + barajado.length; 
 
                 if(puntaje == 0) {
+                    guardarRegistroDePartida(puntaje);
+                    localStorage.removeItem('datosDelJuego');
                     AlertaDeJuegoGanado();
                 } else {
+                    guardarRegistroDePartida(puntaje);
+                    localStorage.removeItem('datosDelJuego');
                     AlertaFinDeJuego(puntaje);
                 }
             }
@@ -592,8 +597,6 @@
             `
           }).then((result) => {
             if (result.isConfirmed) {
-                 // Antes de recargar la página, elimina los datos del juego del almacenamiento local
-                 localStorage.removeItem('datosDelJuego');
                  location.reload(); // se recarga la página
             }
           });
@@ -603,18 +606,14 @@
         Swal.fire({
           title: '<strong>Fin del juego</strong>',
           html: `Tu puntaje es de: <b> ${puntaje}</b> `,
-          showDenyButton: true,
           showCloseButton: true,
           focusConfirm: false,
-          denyButtonText: 'Cancelar',
           confirmButtonText: '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
           confirmButtonAriaLabel: 'Thumbs up, great!',
-          denyButtonText: 'Repetir Juego',
           allowOutsideClick: () => false
         }).then((result) => {
           if (result.isConfirmed) {
-            // Antes de recargar la página, elimina los datos del juego del almacenamiento local
-            localStorage.removeItem('datosDelJuego');
+             
             location.reload(); // se recarga la página
           } else if (result.isDenied) {
              mostrarAlertaSemilla(puntaje);
@@ -648,6 +647,7 @@
           }
         });
       }
+
       function reiniciarPartida(semillaNueva) {
         // Limpia el almacenamiento local
         localStorage.removeItem('datosDelJuego');
@@ -682,6 +682,34 @@
 
     }
     
+
+    function guardarRegistroDePartida(puntaje){
+        // Al finalizar una partida
+        
+        const semillaAGuardar = semilla; // Semilla de la partida
+        const puntajeAGuardar = puntaje; // Puntaje de la partida
+
+        // obtener los registros de partidas del usuario desde localStorage (si existen)
+        const registros = JSON.parse(localStorage.getItem('registrosPartidas')) || [];
+
+        // Busca un registro correspondiente a la semilla actual
+        const registroExistente = registros.find(registro => registro.usuario === usuario && registro.semilla === semillaAGuardar);
+    
+        if (registroExistente) {
+        // Si el usuario ya jugó esta semilla, actualiza el número de partidas y el puntaje
+        registroExistente.vecesJugadas++;
+        if (puntaje < registroExistente.puntaje) {
+            registroExistente.puntaje = puntajeAGuardar; // Actualiza el puntaje si es un récord
+        }
+        } else {
+        // Si es la primera vez que el usuario juega esta semilla, crea un nuevo registro
+        registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: 1, puntaje: puntaje });
+        }
+
+        // Guarda los registros actualizados en localStorage
+        localStorage.setItem('registrosPartidas', JSON.stringify(registros));
+    }
+
     btnTurno.onclick = () =>{
         ponerCartasEnManoHTML();
     }
@@ -705,7 +733,8 @@
         mano: mano,
         barajado: barajado,
         inicioPartida: inicioPartida,
-        semilla: semilla
+        semilla: semilla,
+        usuario: usuario
         };
         localStorage.setItem('datosDelJuego', JSON.stringify(datosDelJuego));
     }
@@ -725,7 +754,7 @@
         barajado = datosDelJuego.barajado;
         inicioPartida = datosDelJuego.inicioPartida;
         semilla = datosDelJuego.semilla;
-        
+        usuario = datosDelJuego.usuario;
         // Llamar a la función para actualizar la interfaz de usuario con los datos cargados
         actualizarHTML(superior1, 'superior1');
         actualizarHTML(superior2, 'superior2');
@@ -734,9 +763,48 @@
         imprimirSemilla();
         actualizarManoHTML();
         } else {
+
+             // Si no hay datos guardados, verifica la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const nombre = urlParams.get("nombre");
+            const semillaParam = urlParams.get("semilla");
+            if (!nombre || !semillaParam) {
+                // Si falta el nombre o la semilla en la URL, muestra una alerta
+                Swal.fire({
+                    title: 'Estás tratando de ingresar sin haber puesto todos los datos',
+                    text: 'Ingrese nombre y semilla por favor',
+                    icon: 'warning',
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/index.html';
+                    }
+                });
+                return;
+            }
+
+            if (semillaParam === "aleatoria") {
+                // Generar una semilla aleatoria
+                semilla = generarSemillaAleatoria();
+            } else if (/^\d{1,4}$/.test(semillaParam)) {
+                // Verificar si semillaParam es un número de hasta 4 caracteres
+                semilla = parseInt(semillaParam, 10);
+            } else {
+                Swal.fire({
+                    title: 'Estás tratando de ingresar sin ingresar semilla válida',
+                    text: 'Ingrese semilla por favor',
+                    icon: 'warning',
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/index.html';
+                    }
+                });
+                 return;
+            }
+    
             mazo = crearMazo();
-            console.log(mano);
-            semilla = generarSemillaAleatoria();
+            usuario = nombre;
             barajado = barajarCartas(mazo, semilla);
             console.log(barajado);
             imprimirSemilla();
