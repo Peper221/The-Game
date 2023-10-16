@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingrese los datos por favor</title>
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<style>
+    
+    body {
+        background-color: cornflowerblue;
+    }
+    .container {
+        margin-top: 100px;
+        width: 70%;
+    }
+</style>
+<body>
+    <script>
+        function mostrarCampos() {
+          const opcion = new URLSearchParams(window.location.search).get('opcion');
+          const campoNombre = document.getElementById("nombre");
+          const campoSemilla = document.getElementById("semilla");
+    
+          if (opcion === "normal") {
+            campoNombre.style.display = "block";
+            campoSemilla.parentElement.style.display = "none";
+          } else if (opcion === "manual") {
+            campoNombre.style.display = "block";
+            campoSemilla.style.display = "block";
+          }
+
+
+          // Habilitar el botón Enviar cuando los campos estén validados
+        document.getElementById("miFormulario").addEventListener("input", function () {
+          const nombre = document.getElementById("nombre").value;
+          const semilla = document.getElementById("semilla").value;
+          const enviar = document.getElementById("enviar");
+
+          const nombreValido = nombre.trim() !== "" && nombre.length <= 8;
+          const semillaValida = /^\d{1,4}$/.test(semilla) && semilla !== "0";
+
+          const btn = document.getElementById('enviar');
+          if ((opcion === "normal" && nombreValido) || (opcion === "manual" && nombreValido && semillaValida)) {
+            enviar.style.display = "block";
+          } else {
+            enviar.style.display = "none";
+          }
+
+            btn.addEventListener('click', ()=>{
+                (semillaValida) ? window.location.href = `/juego.html?nombre=${nombre}&semilla=${semilla}`
+                 : window.location.href = `/juego.html?nombre=${nombre}&semilla=aleatoria`
+            });
+            
+        });
+
+        
+        }
+    
+        document.addEventListener("DOMContentLoaded",()=>{
+            mostrarCampos();
+        });
+
+         
+      </script>
+
+        <h1 class="mt-5 estilo-h1">Ingrese datos para jugar</h1>
+
+        <div class="container">
+            <form id="miFormulario">
+                <div class="form-group">
+                <label for="nombre">Ingrese usuario</label>
+                <input type="text" class="form-control" id="nombre" aria-describedby="nombre" placeholder="Ingrese nombre">
+                <small id="nombre" class="form-text text-muted">Ingrese nombre de usuario</small>
+                </div>
+                <div class="form-group">
+                    <label for="semilla">Semilla</label>
+                    <input type="number" class="form-control" id="semilla" placeholder="Semilla">
+                </div>
+                
+                <button class="btn btn-primary mt-5" type="button" id="enviar" style="display: none;">Jugar</button>
+            </form>
+        </div>
+</body>
+</html>
