@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
-    
+ 
     <div class="container mt-5">
+        <a href="index.html">
+            <button class="btn btn-primary">Atrás</button>
+        </a>
         <h1 class="text-center">Tabla de Puntajes</h1>
         <div class="table-responsive"> <!-- Hacer la tabla responsive -->
-            <table id="tabla-puntajes" class="table table-striped table-bordered table-hover">
+            <table class="table table-striped table-bordered table-hover" id="tabla-puntajes">
                 <thead class="thead-dark">
                     <tr>
                         <th>Posición</th>
@@ -25,6 +28,12 @@
             </table>
         </div>
     </div>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center " id="paginador">
+           
+        </ul>
+    </nav>
 
     <script src="js/scripts.js"></script>
 </body>
