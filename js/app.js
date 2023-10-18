@@ -606,7 +606,6 @@
         Swal.fire({
           title: '<strong>Fin del juego</strong>',
           html: `Tu puntaje es de: <b> ${puntaje}</b> `,
-          showCloseButton: true,
           focusConfirm: false,
           confirmButtonText: '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
           confirmButtonAriaLabel: 'Thumbs up, great!',
@@ -701,13 +700,37 @@
         if (puntaje < registroExistente.puntaje) {
             registroExistente.puntaje = puntajeAGuardar; // Actualiza el puntaje si es un récord
         }
+        guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente.vecesJugadas, registroExistente.puntaje);
         } else {
         // Si es la primera vez que el usuario juega esta semilla, crea un nuevo registro
         registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: 1, puntaje: puntaje });
+        guardarDatosPartida(usuario, semillaAGuardar, 1, puntaje);
+
         }
 
         // Guarda los registros actualizados en localStorage
         localStorage.setItem('registrosPartidas', JSON.stringify(registros));
+    }
+
+    // Función para enviar datos de la partida al servidor
+    function guardarDatosPartida(nombre, semilla, vecesJugadas, puntaje) {
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('semilla', semilla);
+        formData.append('vecesJugadas', vecesJugadas);
+        formData.append('puntaje', puntaje);
+
+        fetch('guardarDatosPartida.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data); // Muestra la respuesta del servidor en la consola
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 
     btnTurno.onclick = () =>{
