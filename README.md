@@ -1,13 +1,19 @@
 # The-Game
-fecha de revisión: 13/10/2023
 
-    - creado nuevo archivo principal, donde se ven opciones que se van a poder seleccionar.
-    - agregado bootstrap al proyecto.
-    - se hacen verificaciones de si existe una partida guardada, que se pueda reanudar.
-    - se ha creado formulario para ingresar datos como el nombre y la semilla.
-    - se han incluido validaciones en la página de juego.
-    - ya se puede incluir una semilla manual.
-    - se guardan las partidas jugadas, y las veces si se ha jugado más de una vez la partida con una misma semilla.
-    - se guardan las partidas en bd, y se actualizan las posiciones con respecto al puntaje.
-    - se pueden consultar los puntajes, se les da formato y paginación si son más de 10 posiciones.
- 
+06/09/2023 - se unificaron las ramas desarrollo y desarrollo2 con la rama main.
+
+09/09/2023 - se unificó la rama desarrollo3 con main.
+
+14/09/2023 - se unificó la rama desarrollo4 con main.
+
+28/09/2023 - se unificó la rama desarrollo5 con main.
+
+29/09/2023 - se unificó la rama desarrollo6 con main.
+
+05/10/2023 - se unificó la rama desarrollo7 con main.
+
+10/10/2023 - se unificó la rama desarrollo8 con main.
+
+13/10/2023 - se unificó la rama desarrollo9 con main.
+
+18/10/2023 - se unificó la rama desarrollo10 con main.
