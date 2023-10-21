@@ -647,6 +647,24 @@
         });
       }
 
+
+      function terminarJuego() {
+        Swal.fire({
+            title: '¿Estas seguro de terminar el juego?',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+            allowOutsideClick: () => false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              let puntaje = mano.length + barajado.length; 
+              guardarRegistroDePartida(puntaje);
+              localStorage.removeItem('datosDelJuego');
+              window.history.back();
+            }  
+          });
+      }
+
       function reiniciarPartida(semillaNueva) {
         // Limpia el almacenamiento local
         localStorage.removeItem('datosDelJuego');
