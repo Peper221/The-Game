@@ -90,15 +90,14 @@ body {
   }
 
   @media (max-width: 844px) {
-    .mano .espacio-carta {
-        min-width: 70px; 
-        max-width: calc(80% - 20px); 
-        position: relative;
+    .contenedor {
+        width: 90%;
     }
 
-     /* .mano .espacio-carta:hover {
-        top: -50px;
-     }  */
+    .mano .espacio-carta {
+        width: 97px;
+        position: relative;
+    }
 
      .columna1 .espacio-carta:nth-child(2) {
         position: relative;
@@ -121,10 +120,10 @@ body {
     }
 
     .columna1,.columna2, .columna3, .columna4 {
-        width: 85px;
+        width: 94px;
         margin-right: 0;
         display: block;
-        max-width: 160px;
+        height: 151px;
     }  
   }
 
@@ -220,7 +219,7 @@ body {
 
   .parrafo {
     margin: 0;
-    height: 160px;
+    height: 151px;
     width: 100%;
     background-color: aqua;
 }
