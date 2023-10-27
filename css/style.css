@@ -147,7 +147,7 @@ body {
  
     .centro {
         justify-content: center;
-        margin: 0 0 0 70%; /*240px*/
+        margin: 0 0 0 65%;
         height: 20%;
         width: 40%;
     }
@@ -166,16 +166,15 @@ body {
 
 
     .espacio-carta {
-        width: calc(50% - 20px);
-        height: 97px;
+        width: calc(40% - 20px);
+        height: 115px;
     }
 
     .mano .espacio-carta {
         margin: 10px auto; 
         position: relative;
-        width: 100%; /* Ajusta el ancho deseado para dispositivos pequeños */
-        /* max-width: 60px;  */
-        height: 97px; /* Altura automática para mantener la relación de aspecto */
+        width: 90px; 
+        height: 115px;  
         margin: 5px; 
     }
 
