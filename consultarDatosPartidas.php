@@ -20,6 +20,7 @@ if ($result->num_rows > 0) {
         $puntajes[] = array(
             'posicion' => $row['posicion'],
             'nombre' => $row['nombre'],
+            'semilla' => $row['semilla'],
             'vecesJugadas' => $row['veces_jugadas'],
             'puntaje' => $row['puntaje']
         );
