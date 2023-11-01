@@ -607,13 +607,13 @@
           title: '<strong>Fin del juego</strong>',
           html: `Tu puntaje es de: <b> ${puntaje}</b> `,
           focusConfirm: false,
-          confirmButtonText: '<i class="fa fa-thumbs-up">Nuevo Juego</i>',
+          confirmButtonText: '<i class="fa fa-thumbs-up">Salir</i>',
           confirmButtonAriaLabel: 'Thumbs up, great!',
           allowOutsideClick: () => false
         }).then((result) => {
           if (result.isConfirmed) {
              
-            location.reload(); // se recarga la página
+            window.location.href = '/index.html';
           } else if (result.isDenied) {
              mostrarAlertaSemilla(puntaje);
           }
@@ -660,7 +660,7 @@
               let puntaje = mano.length + barajado.length; 
               guardarRegistroDePartida(puntaje);
               localStorage.removeItem('datosDelJuego');
-              window.history.back();
+              window.location.href = '/index.html';
             }  
           });
       }
@@ -713,21 +713,22 @@
         const registroExistente = registros.find(registro => registro.usuario === usuario && registro.semilla === semillaAGuardar);
     
         if (registroExistente) {
-        // Si el usuario ya jugó esta semilla, actualiza el número de partidas y el puntaje
-        registroExistente.vecesJugadas++;
+             registroExistente.vecesJugadas++;
+        
         if (puntaje < registroExistente.puntaje) {
-            registroExistente.puntaje = puntajeAGuardar; // Actualiza el puntaje si es un récord
+             registroExistente.puntaje = puntajeAGuardar; // Actualiza el puntaje si es un récord
+            guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente.vecesJugadas,  puntajeAGuardar);
         }
-        guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente.vecesJugadas, registroExistente.puntaje);
+        guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente.vecesJugadas++, registroExistente.puntaje);
         } else {
         // Si es la primera vez que el usuario juega esta semilla, crea un nuevo registro
-        registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: 1, puntaje: puntaje });
+         registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: 1, puntaje: puntaje });
         guardarDatosPartida(usuario, semillaAGuardar, 1, puntaje);
 
         }
 
-        // Guarda los registros actualizados en localStorage
-        localStorage.setItem('registrosPartidas', JSON.stringify(registros));
+        //  Guarda los registros actualizados en localStorage
+         localStorage.setItem('registrosPartidas', JSON.stringify(registros));
     }
 
     // Función para enviar datos de la partida al servidor
