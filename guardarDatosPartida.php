@@ -13,7 +13,6 @@ if ($conn->connect_error) {
 $nombre = $_POST['nombre'];
 $semilla = $_POST['semilla'];
 $puntaje = $_POST['puntaje'];
-
 // Verificar si el puntaje supera el récord de la posición 50
 $sqlMax50 = "SELECT puntaje FROM partidas WHERE posicion = 50 ORDER BY puntaje ASC";
 $resultMax50 = $conn->query($sqlMax50);
@@ -24,7 +23,7 @@ if ($resultMax50->num_rows > 0) {
 
     if ($puntaje < $minPuntaje) {
           // Verificar si ya existe un registro con el mismo usuario y semilla
-        $sqlExistingRecord = "SELECT id, puntaje FROM partidas WHERE nombre = '$nombre' AND semilla = '$semilla'";
+        $sqlExistingRecord = "SELECT * FROM partidas WHERE nombre = '$nombre' AND semilla = '$semilla'";
         $resultExistingRecord = $conn->query($sqlExistingRecord);
 
         if ($resultExistingRecord->num_rows > 0) {
@@ -37,34 +36,63 @@ if ($resultMax50->num_rows > 0) {
                 $updateData = "UPDATE partidas SET puntaje = $puntaje, veces_jugadas = $nuevasVecesJugadas WHERE id = " . $rowExistingRecord['id'];
                 $conn->query($updateData);
                 echo "Puntuación actualizada con éxito.";
-                        // Actualiza las posiciones en función del puntaje, teniendo en cuenta los empates
-                        $query = "SELECT id, puntaje FROM partidas ORDER BY puntaje ASC";
-                        $result = $conn->query($query);
-                
-                        if ($result->num_rows > 0) {
-                            $posicion = 1;
-                            $prevPuntaje = null;
-                            while ($row = $result->fetch_assoc()) {
-                                $id = $row['id'];
-                                $puntajeActual = $row['puntaje'];
-                
-                                if ($prevPuntaje !== null && $puntajeActual > $prevPuntaje) {
-                                    $posicion++;
-                                }
-                
-                                $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
-                                if ($conn->query($updateSql) === TRUE) {
-                                    $prevPuntaje = $puntajeActual;
-                                }
-                            }
-                            echo "Posición actualizada.";
-                        }
-                 
+                 // Actualiza las posiciones en función del puntaje
+                $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+                $result = $conn->query($query);
+                    
+                if ($result->num_rows > 0) {
+                    $posicion = 1;
+                        while ($row = $result->fetch_assoc()) {
+                            $id = $row['id'];
+                            $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
+                            $conn->query($updateSql);
+                            $posicion++;
+                         }
+                        echo "Posición actualizada.";
+                     }
+                    
             } else {
                 $nuevasVecesJugadas = $rowExistingRecord['veces_jugadas'] + 1;
                 $updateData = "UPDATE partidas SET veces_jugadas = $nuevasVecesJugadas WHERE id = " . $rowExistingRecord['id'];
                 $conn->query($updateData);
                 echo "Veces jugadas actualizada con éxito.";
+
+                $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+                $result = $conn->query($query);
+        
+                if ($result->num_rows > 0) {
+                $posicion = 1;
+                while ($row = $result->fetch_assoc()) {
+                    $id = $row['id'];
+                    $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
+                    $conn->query($updateSql);
+                    $posicion++;
+                }
+                echo "Posición actualizada.";
+                }
+            }
+        }  else {
+            // Insertar la partida en la base de datos
+            $sql = "INSERT INTO partidas (nombre, semilla, puntaje) VALUES ('$nombre', '$semilla', '$puntaje')";
+            if ($conn->query($sql) === TRUE) {
+                echo "Datos de la partida guardados con éxito.";
+        
+                // Actualiza las posiciones en función del puntaje
+                $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+                $result = $conn->query($query);
+        
+                if ($result->num_rows > 0) {
+                $posicion = 1;
+                while ($row = $result->fetch_assoc()) {
+                    $id = $row['id'];
+                    $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
+                    $conn->query($updateSql);
+                    $posicion++;
+                }
+                echo "Posición actualizada.";
+                }
+            } else {
+                echo "Error al guardar los datos: " . $conn->error;
             }
         }
     } else {
@@ -73,7 +101,7 @@ if ($resultMax50->num_rows > 0) {
 } else {
 
     // Verificar si ya existe un registro con el mismo usuario y semilla
-    $sqlExistingRecord = "SELECT id, puntaje FROM partidas WHERE nombre = '$nombre' AND semilla = '$semilla'";
+    $sqlExistingRecord = "SELECT * FROM partidas WHERE nombre = '$nombre' AND semilla = '$semilla'";
     $resultExistingRecord = $conn->query($sqlExistingRecord);
 
 if ($resultExistingRecord->num_rows > 0) {
@@ -86,34 +114,40 @@ if ($resultExistingRecord->num_rows > 0) {
         $updateData = "UPDATE partidas SET puntaje = $puntaje, veces_jugadas = $nuevasVecesJugadas WHERE id = " . $rowExistingRecord['id'];
         $conn->query($updateData);
         echo "Puntuación actualizada con éxito.";
-                // Actualiza las posiciones en función del puntaje, teniendo en cuenta los empates
-                $query = "SELECT id, puntaje FROM partidas ORDER BY puntaje ASC";
-                $result = $conn->query($query);
-        
-                if ($result->num_rows > 0) {
-                    $posicion = 1;
-                    $prevPuntaje = null;
-                    while ($row = $result->fetch_assoc()) {
-                        $id = $row['id'];
-                        $puntajeActual = $row['puntaje'];
-        
-                        if ($prevPuntaje !== null && $puntajeActual > $prevPuntaje) {
-                            $posicion++;
-                        }
-        
-                        $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
-                        if ($conn->query($updateSql) === TRUE) {
-                            $prevPuntaje = $puntajeActual;
-                        }
-                    }
-                    echo "Posición actualizada.";
-                }
+        // Actualiza las posiciones en función del puntaje
+        $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+        $result = $conn->query($query);
+
+        if ($result->num_rows > 0) {
+            $posicion = 1;
+            while ($row = $result->fetch_assoc()) {
+                $id = $row['id'];
+                $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
+                $conn->query($updateSql);
+                $posicion++;
+            }
+             echo "Posición actualizada.";
+        }
          
     } else {
         $nuevasVecesJugadas = $rowExistingRecord['veces_jugadas'] + 1;
         $updateData = "UPDATE partidas SET veces_jugadas = $nuevasVecesJugadas WHERE id = " . $rowExistingRecord['id'];
         $conn->query($updateData);
         echo "Veces jugadas actualizada con éxito.";
+        
+        $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+        $result = $conn->query($query);
+
+        if ($result->num_rows > 0) {
+        $posicion = 1;
+        while ($row = $result->fetch_assoc()) {
+            $id = $row['id'];
+            $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
+            $conn->query($updateSql);
+            $posicion++;
+        }
+        echo "Posición actualizada.";
+        }
     }
 } else {
     // Insertar la partida en la base de datos
@@ -121,27 +155,19 @@ if ($resultExistingRecord->num_rows > 0) {
     if ($conn->query($sql) === TRUE) {
         echo "Datos de la partida guardados con éxito.";
 
-        // Actualiza las posiciones en función del puntaje, teniendo en cuenta los empates
-        $query = "SELECT id, puntaje FROM partidas ORDER BY puntaje ASC";
+        // Actualiza las posiciones en función del puntaje
+        $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
-            $posicion = 1;
-            $prevPuntaje = null;
-            while ($row = $result->fetch_assoc()) {
-                $id = $row['id'];
-                $puntajeActual = $row['puntaje'];
-
-                if ($prevPuntaje !== null && $puntajeActual > $prevPuntaje) {
-                    $posicion++;
-                }
-
-                $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
-                if ($conn->query($updateSql) === TRUE) {
-                    $prevPuntaje = $puntajeActual;
-                }
-            }
-            echo "Posición actualizada.";
+        $posicion = 1;
+        while ($row = $result->fetch_assoc()) {
+            $id = $row['id'];
+            $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
+            $conn->query($updateSql);
+            $posicion++;
+        }
+        echo "Posición actualizada.";
         }
     } else {
         echo "Error al guardar los datos: " . $conn->error;
@@ -149,8 +175,7 @@ if ($resultExistingRecord->num_rows > 0) {
 }
        
 }
-
-$conn->close();
-
-
+    $conn->close();
 ?>
+ 
+ 
