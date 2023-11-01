@@ -1,13 +1,20 @@
 # The-Game
-Fecha de revisión: 20/10/2023
+06/09/2023 - se unificaron las ramas desarrollo y desarrollo2 con la rama main.
 
-    -cambio de posición de los botones en el tablero de juego.
-    -agregados estilos a los botones.
-    -ajustes en la resposividad y tamaño de los elementos en el tablero en dispositivos más pequeños.
+09/09/2023 - se unificó la rama desarrollo3 con main.
 
-Fecha de revición: 27/10/2023
+14/09/2023 - se unificó la rama desarrollo4 con main.
 
-    - agregados estilos para botones deshacer y boton de turno.
-    - agregada función de terminarJuego para el boton terminar juego.
-    - ajustes de dimensiones del tableto para dispositivos pequeños y medianos.
-    - se modificó la forma de posicionamiento y guardado de partidas.
+28/09/2023 - se unificó la rama desarrollo5 con main.
+
+29/09/2023 - se unificó la rama desarrollo6 con main.
+
+05/10/2023 - se unificó la rama desarrollo7 con main.
+
+10/10/2023 - se unificó la rama desarrollo8 con main.
+
+13/10/2023 - se unificó la rama desarrollo9 con main.
+
+18/10/2023 - se unificó la rama desarrollo10 con main.
+
+31/10/2023 - se unificó la rama desarrollo11 con main.
