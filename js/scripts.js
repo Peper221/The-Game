@@ -6,6 +6,8 @@ let totalData = []; //para almacenar todos los datos
 
 // Función para cargar y mostrar los datos de la página actual
 function cargarDatosPagina(pagina) {
+    totalData.sort((a, b) => a.posicion - b.posicion);
+    
     // Calcula el rango de posiciones para la página actual
     const startPosition = (pagina - 1) * itemsPerPage;
     const endPosition = pagina * itemsPerPage;
@@ -14,16 +16,16 @@ function cargarDatosPagina(pagina) {
     const paginatedData = totalData.filter(puntaje => {
         return puntaje.posicion >= startPosition && puntaje.posicion <= endPosition;
     });
-
     // Agrupa los jugadores con la misma posición
     const groupedData = [];
     let currentGroup = null;
 
     paginatedData.forEach(puntaje => {
         if (currentGroup && currentGroup.posicion === puntaje.posicion) {
-            currentGroup.nombres.push({ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje });
+            currentGroup.nombres.push({ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje, semilla: puntaje.semilla });
         } else {
-            currentGroup = { posicion: puntaje.posicion, nombres: [{ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje }] };
+
+            currentGroup = { posicion: puntaje.posicion, nombres: [{ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje, semilla: puntaje.semilla }] };
             groupedData.push(currentGroup);
         }
     });
@@ -39,7 +41,7 @@ function cargarDatosPagina(pagina) {
         const fila = document.createElement('tr');
         fila.innerHTML = `
             <td>${group.posicion}</td>
-            <td>${group.nombres.map(jugador => `${jugador.nombre} (${jugador.vecesJugadas})`).join(', ')}</td>
+            <td>${group.nombres.map(jugador => `${jugador.nombre} (semilla: ${jugador.semilla} : ${jugador.vecesJugadas})`).join(', ')}</td>
             <td>${group.nombres[0].puntaje}</td>
         `;
         tablaPuntajes.appendChild(fila);
@@ -81,7 +83,6 @@ window.addEventListener('load', () => {
       .then(data => {
         // Almacena todos los datos en totalData
         totalData = data;
-
         // Carga y muestra los datos de la página actual
         cargarDatosPagina(currentPage);
       })
