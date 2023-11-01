@@ -10,3 +10,4 @@ Fecha de revición: 27/10/2023
     - agregados estilos para botones deshacer y boton de turno.
     - agregada función de terminarJuego para el boton terminar juego.
     - ajustes de dimensiones del tableto para dispositivos pequeños y medianos.
+    - se modificó la forma de posicionamiento y guardado de partidas.
