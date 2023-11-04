@@ -24,10 +24,16 @@
             // Si no hay una carta seleccionada, selecciona esta
             cartaSeleccionada = carta;
             carta.style.border = "2px solid red"; // Cambia el borde para indicar selección
+            reproducirSonidoSeleccionarCarta();
         } else {
             // Si ya hay una carta seleccionada, intenta moverla a este espacio carta
             moverCarta(carta);
         }
+    }
+
+    function reproducirSonidoSeleccionarCarta() {
+        var audio = document.getElementById("seleccionar");
+        audio.play();
     }
     
     function moverCarta(espacioCarta) {
@@ -117,7 +123,10 @@
                                 break;
                         }
 
+                        reproducirSonidoCartaMovida();
                         verificarMovimientosCompatiblesEnPilas();
+
+
                 } else {
                     cartaSeleccionada.style.border = 'none';
                     cartaSeleccionada = null; // para evitar doble llamado del alert
@@ -142,7 +151,13 @@
             }
 
         }
+
     }
+
+    function reproducirSonidoCartaMovida() {
+        var audio = document.getElementById("movida");
+        audio.play();
+      }
             
     function validarMovimiento(carta, espacioId) {
          let numeroCarta;
@@ -397,7 +412,14 @@
     
         // Vuelve a deshabilitar el botón de deshacer
         btnDeshacer.disabled = true;
+
+        reproducirSonidoDeshacer();
     };
+
+    function reproducirSonidoDeshacer() {
+        var audio = document.getElementById("deshacer");
+        audio.play();
+      }
     
     function actualizarManoHTML() {
   
@@ -571,14 +593,28 @@
                     guardarRegistroDePartida(puntaje);
                     localStorage.removeItem('datosDelJuego');
                     AlertaDeJuegoGanado();
+                    reproducirSonidoGanaste();
                 } else {
                     guardarRegistroDePartida(puntaje);
                     localStorage.removeItem('datosDelJuego');
                     AlertaFinDeJuego(puntaje);
+                    reproducirSonidoPerdiste();
                 }
             }
          }
     }
+
+    function reproducirSonidoGanaste() {
+        var audio = document.getElementById("ganaste");
+        audio.play();
+      }
+    
+
+    function reproducirSonidoPerdiste() {
+        var audio = document.getElementById("perdiste");
+        audio.play();
+     }
+    
      
     function AlertaDeJuegoGanado(){
         Swal.fire({
@@ -754,8 +790,14 @@
 
     btnTurno.onclick = () =>{
         ponerCartasEnManoHTML();
+        reproducirSonidoTurno();
     }
 
+    function reproducirSonidoTurno() {
+        var audio = document.getElementById("turno");
+        audio.play();
+      }
+    
     document.addEventListener("DOMContentLoaded", function () {
         EmpezarJuego();
     });
