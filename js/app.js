@@ -128,6 +128,7 @@
 
 
                 } else {
+                    reproducirSonidoEquivocado();
                     cartaSeleccionada.style.border = 'none';
                     cartaSeleccionada = null; // para evitar doble llamado del alert
                     const Toast = Swal.mixin({
@@ -154,10 +155,15 @@
 
     }
 
+    function reproducirSonidoEquivocado() {
+        var audio = document.getElementById("equivocado");
+        audio.play();
+    }
+
     function reproducirSonidoCartaMovida() {
         var audio = document.getElementById("movida");
         audio.play();
-      }
+    }
             
     function validarMovimiento(carta, espacioId) {
          let numeroCarta;
@@ -607,13 +613,13 @@
     function reproducirSonidoGanaste() {
         var audio = document.getElementById("ganaste");
         audio.play();
-      }
+    }
     
 
     function reproducirSonidoPerdiste() {
         var audio = document.getElementById("perdiste");
         audio.play();
-     }
+    }
     
      
     function AlertaDeJuegoGanado(){
