@@ -37,13 +37,13 @@
         document.getElementById("miFormulario").addEventListener("input", function () {
           const nombre = document.getElementById("nombre").value;
           const semilla = document.getElementById("semilla").value;
+          const dificultad = document.getElementById("dificultades").value;
           const enviar = document.getElementById("enviar");
 
           const nombreValido = nombre.trim() !== "" && nombre.length <= 8;
           const semillaValida = /^\d{1,4}$/.test(semilla) && semilla !== "0";
-
           const btn = document.getElementById('enviar');
-          if ((opcion === "normal" && nombreValido) || (opcion === "manual" && nombreValido && semillaValida)) {
+          if ((opcion === "normal" && nombreValido && (dificultad == 2 || dificultad == 1)) || (opcion === "manual" && nombreValido && semillaValida && (dificultad == 2 || dificultad == 1))) {
             enviar.style.display = "block";
           } else {
             enviar.style.display = "none";
@@ -71,9 +71,18 @@
         <div class="container">
             <form id="miFormulario">
                 <div class="form-group">
-                <label for="nombre">Ingrese usuario</label>
-                <input type="text" class="form-control" id="nombre" aria-describedby="nombre" placeholder="Ingrese nombre">
-                <small id="nombre" class="form-text text-muted">Ingrese nombre de usuario</small>
+                  <label for="nombre">Ingrese usuario</label>
+                  <input type="text" class="form-control" id="nombre" aria-describedby="nombre" placeholder="Ingrese nombre">
+                  <small id="nombre" class="form-text text-muted">Ingrese nombre de usuario</small>
+                  
+                  <br>
+                  <label for="dificultad">Ingrese Dificultad</label>
+                  <select id="dificultades" class="form-select" aria-label="Default select example">
+                    <option selected disabled>Seleccione dificultad</option>
+                    <option value="1">Normal</option>
+                    <option value="2">Experto</option>
+                  </select>
+                  <small id="dificultad" class="form-text text-muted">Ingrese dificultad de la partida</small>
                 </div>
                 <div class="form-group">
                     <label for="semilla">Semilla</label>
