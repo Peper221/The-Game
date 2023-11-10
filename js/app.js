@@ -707,7 +707,7 @@
           });
       }
 
-      function reiniciarPartida(semillaNueva) {
+    function reiniciarPartida(semillaNueva) {
         // Limpia el almacenamiento local
         localStorage.removeItem('datosDelJuego');
 
@@ -739,6 +739,7 @@
         imprimirSemilla();
         actualizarManoHTML();
 
+    
     }
     
 
@@ -760,12 +761,15 @@
         if (puntaje < registroExistente.puntaje) {
              registroExistente.puntaje = puntajeAGuardar; // Actualiza el puntaje si es un récord
             guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente.vecesJugadas,  puntajeAGuardar);
+        }else {
+            guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente, registroExistente.puntaje);
         }
-        guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente.vecesJugadas++, registroExistente.puntaje);
+        
         } else {
+        let veces_jugadas = 1;
         // Si es la primera vez que el usuario juega esta semilla, crea un nuevo registro
-         registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: 1, puntaje: puntaje });
-        guardarDatosPartida(usuario, semillaAGuardar, 1, puntaje);
+         registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: veces_jugadas, puntaje: puntaje });
+        guardarDatosPartida(usuario, semillaAGuardar, veces_jugadas, puntaje);
 
         }
 
