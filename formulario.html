@@ -50,8 +50,8 @@
           }
 
             btn.addEventListener('click', ()=>{
-                (semillaValida) ? window.location.href = `/juego.html?nombre=${nombre}&semilla=${semilla}`
-                 : window.location.href = `/juego.html?nombre=${nombre}&semilla=aleatoria`
+                (semillaValida) ? window.location.href = `/juego.html?nombre=${nombre}&semilla=${semilla}&dificultad=${dificultad}`
+                 : window.location.href = `/juego.html?nombre=${nombre}&semilla=aleatoria&dificultad=${dificultad}`
             });
             
         });
