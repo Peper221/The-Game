@@ -264,7 +264,7 @@
             }
 
             btnTurno.disabled = cartasEnMano > (maxNumDCartasEnMano - minCantidadParaTirar);
-            btnDeshacer.disabled = cartasEnMano > (maxNumDCartasEnMano - minCantidadParaTirar);
+            btnDeshacer.disabled = cartasEnMano > (maxNumDCartasEnMano - 1);
  
         } else {
         switch (arreglo) {
@@ -519,11 +519,7 @@
         // Inicializa el arreglo mano  
     
         mano = [];
-        if(dificultad == 1){
-            maxNumDCartasEnMano = 8;
-        } else if(dificultad == 2){
-            maxNumDCartasEnMano = 7;
-        }
+ 
         for (let i = 0; i < maxNumDCartasEnMano; i++) {
             
             const primeraCartaBarajada = barajado[0];
@@ -841,7 +837,8 @@
         barajado: barajado,
         inicioPartida: inicioPartida,
         semilla: semilla,
-        usuario: usuario
+        usuario: usuario,
+        dificultad: dificultad
         };
         localStorage.setItem('datosDelJuego', JSON.stringify(datosDelJuego));
     }
@@ -862,7 +859,13 @@
         inicioPartida = datosDelJuego.inicioPartida;
         semilla = datosDelJuego.semilla;
         usuario = datosDelJuego.usuario;
-        // Llamar a la función para actualizar la interfaz de usuario con los datos cargados
+        dificultad = datosDelJuego.dificultad;
+        // Llamar a la función para actualizar la interfaz de usuario con los datos cargados+
+        if(dificultad == 1){
+            maxNumDCartasEnMano = 8;
+        } else if(dificultad == 2){
+            maxNumDCartasEnMano = 7;
+        }
         actualizarHTML(superior1, 'superior1');
         actualizarHTML(superior2, 'superior2');
         actualizarHTML(inferior1, 'inferior1');
@@ -912,7 +915,11 @@
             }
             
             dificultad = dificultadParam;
-
+            if(dificultad == 1){
+                maxNumDCartasEnMano = 8;
+            } else if(dificultad == 2){
+                maxNumDCartasEnMano = 7;
+            }
             mazo = crearMazo();
             usuario = nombre;
             barajado = barajarCartas(mazo, semilla);
