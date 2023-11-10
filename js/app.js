@@ -14,6 +14,8 @@
     let superior2 = [];
     let inferior1 = [];
     let inferior2 = [];
+    let dificultad;
+    let maxNumDCartasEnMano;
 
     function seleccionarCarta(carta) {
         if (cartaSeleccionada === carta) {
@@ -248,15 +250,21 @@
     }
     
     function eliminarCartaDeArreglo(origen, carta){
-        
+        let minCantidadParaTirar;
         arreglo = origen.id;
         if(arreglo.startsWith('mano')){
             eliminarCartaDeArregloInterno(mano, carta);
                 // Comprobar cuántas cartas quedan en la mano
             const cartasEnMano = mano.length;
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
-            btnTurno.disabled = cartasEnMano > 6;
-            btnDeshacer.disabled = cartasEnMano > 7;
+            if(dificultad == 1){
+                minCantidadParaTirar = 2;
+            } else if(dificultad == 2){
+                minCantidadParaTirar = 3;
+            }
+
+            btnTurno.disabled = cartasEnMano > (maxNumDCartasEnMano - minCantidadParaTirar);
+            btnDeshacer.disabled = cartasEnMano > (maxNumDCartasEnMano - minCantidadParaTirar);
  
         } else {
         switch (arreglo) {
@@ -443,10 +451,10 @@
             // Comprobar cuántas cartas quedan en la mano
             const cartasEnMano = mano.length;
             // Habilitar o deshabilitar el botón según la cantidad de cartas en la mano
-            btnTurno.disabled = cartasEnMano === 8;
-            btnDeshacer.disabled = cartasEnMano === 8;
+            btnTurno.disabled = cartasEnMano === maxNumDCartasEnMano;
+            btnDeshacer.disabled = cartasEnMano === maxNumDCartasEnMano;
         } else {
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < maxNumDCartasEnMano; i++) {
                 const espacioMano = document.getElementById(`mano-${i}`);
                 espacioMano.innerHTML = ''; // Limpiar el espacio antes de agregar la carta
             }
@@ -511,7 +519,12 @@
         // Inicializa el arreglo mano  
     
         mano = [];
-        for (let i = 0; i < 8; i++) {
+        if(dificultad == 1){
+            maxNumDCartasEnMano = 8;
+        } else if(dificultad == 2){
+            maxNumDCartasEnMano = 7;
+        }
+        for (let i = 0; i < maxNumDCartasEnMano; i++) {
             
             const primeraCartaBarajada = barajado[0];
             barajado.shift();
@@ -549,8 +562,8 @@
             // Obtener cuántas cartas hay actualmente en la mano
             const cartasEnMano = mano.length;
 
-            // Calcular cuántas cartas faltan para llenar la mano a 8
-            const cartasFaltantes = 8 - cartasEnMano;
+            // Calcular cuántas cartas faltan para llenar la mano
+            const cartasFaltantes = maxNumDCartasEnMano - cartasEnMano;
            
         
             mostrarColumnasEhijos();
@@ -568,7 +581,7 @@
                     actualizarManoHTML();
                      // Comprobar cuántas cartas quedan en la mano
                      const cartasEnMano = mano.length;
-                    btnDeshacer.disabled = cartasEnMano === 8;
+                    btnDeshacer.disabled = cartasEnMano === maxNumDCartasEnMano;
                     movimientosDuranteTurno = [];
             }
                 
@@ -862,11 +875,12 @@
             const urlParams = new URLSearchParams(window.location.search);
             const nombre = urlParams.get("nombre");
             const semillaParam = urlParams.get("semilla");
-            if (!nombre || !semillaParam) {
+            const dificultadParam = urlParams.get("dificultad");
+            if (!nombre || !semillaParam || !dificultadParam) {
                 // Si falta el nombre o la semilla en la URL, muestra una alerta
                 Swal.fire({
                     title: 'Estás tratando de ingresar sin haber puesto todos los datos',
-                    text: 'Ingrese nombre y semilla por favor',
+                    text: 'Ingrese nombre, semilla y dificultad por favor',
                     icon: 'warning',
                     confirmButtonText: 'Ok',
                 }).then((result) => {
@@ -896,7 +910,9 @@
                 });
                  return;
             }
-    
+            
+            dificultad = dificultadParam;
+
             mazo = crearMazo();
             usuario = nombre;
             barajado = barajarCartas(mazo, semilla);
