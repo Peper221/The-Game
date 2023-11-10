@@ -12,7 +12,9 @@ if ($conn->connect_error) {
 
 $nombre = $_POST['nombre'];
 $semilla = $_POST['semilla'];
+$vecesjugadas = $_POST['vecesJugadas'];
 $puntaje = $_POST['puntaje'];
+
 // Verificar si el puntaje supera el récord de la posición 50
 $sqlMax50 = "SELECT puntaje FROM partidas WHERE posicion = 50 ORDER BY puntaje ASC";
 $resultMax50 = $conn->query($sqlMax50);
@@ -73,7 +75,7 @@ if ($resultMax50->num_rows > 0) {
             }
         }  else {
             // Insertar la partida en la base de datos
-            $sql = "INSERT INTO partidas (nombre, semilla, puntaje) VALUES ('$nombre', '$semilla', '$puntaje')";
+            $sql = "INSERT INTO partidas (nombre, semilla, veces_jugadas, puntaje) VALUES ('$nombre', '$semilla', $vecesjugadas,'$puntaje')";
             if ($conn->query($sql) === TRUE) {
                 echo "Datos de la partida guardados con éxito.";
         
@@ -151,7 +153,7 @@ if ($resultExistingRecord->num_rows > 0) {
     }
 } else {
     // Insertar la partida en la base de datos
-    $sql = "INSERT INTO partidas (nombre, semilla, puntaje) VALUES ('$nombre', '$semilla', '$puntaje')";
+    $sql = "INSERT INTO partidas (nombre, semilla, veces_jugadas, puntaje) VALUES ('$nombre', '$semilla', $vecesjugadas,'$puntaje')";
     if ($conn->query($sql) === TRUE) {
         echo "Datos de la partida guardados con éxito.";
 
