@@ -385,7 +385,13 @@
                 const columna = document.querySelector(`.columna${i}`);  
                 
                 if (columna.style.display === 'block') {
-                    columna.style.display = 'grid';
+
+                    if(dificultad == 2 && (document.querySelector('.columna4') == columna)){
+                        
+                    } else {
+                         columna.style.display = 'grid';
+
+                    }
                 }
             }
            
@@ -822,8 +828,14 @@
     });
 
     function EmpezarJuego(){
+        
         // Verifica si hay datos previamente guardados
         cargarDatosDelJuego();
+        if (dificultad == 2) {
+            document.getElementById('mano-7').remove();
+            document.getElementsByClassName('columna4')[0].style.display = 'block';
+            document.getElementsByClassName('columna4')[0].style.width = '94px';
+         }
     }
 
     // Función para guardar los datos del juego en el almacenamiento local
