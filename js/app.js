@@ -439,7 +439,7 @@
     function reproducirSonidoDeshacer() {
         var audio = document.getElementById("deshacer");
         audio.play();
-      }
+    }
     
     function actualizarManoHTML() {
   
@@ -498,8 +498,9 @@
              cartas.push(carta); 
          }
          return cartas;
-     }
-     function generarNumeroPseudoAleatorio(semilla) {
+    }
+     
+    function generarNumeroPseudoAleatorio(semilla) {
         let x = Math.sin(semilla) * 10000;
         return x - Math.floor(x);
     }
@@ -675,9 +676,10 @@
              mostrarAlertaSemilla(puntaje);
           }
         });
-      }
+    }
 
-      function mostrarAlertaSemilla(puntaje) {
+      
+    function mostrarAlertaSemilla(puntaje) {
         Swal.fire({
           title: 'Ingresar la semilla de juego',
           input: 'text',
@@ -702,10 +704,10 @@
             mostrarAlertaFinDeJuego(puntaje);
           }
         });
-      }
+    }
 
 
-      function terminarJuego() {
+    function terminarJuego() {
         Swal.fire({
             title: '¿Estas seguro de terminar el juego?',
             showCancelButton: true,
@@ -720,7 +722,7 @@
               window.location.href = '/index.html';
             }  
           });
-      }
+    }
 
     function reiniciarPartida(semillaNueva) {
         // Limpia el almacenamiento local
@@ -777,14 +779,14 @@
              registroExistente.puntaje = puntajeAGuardar; // Actualiza el puntaje si es un récord
             guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente.vecesJugadas,  puntajeAGuardar);
         }else {
-            guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente, registroExistente.puntaje);
+            guardarDatosPartida(registroExistente.usuario, registroExistente.semilla, registroExistente, registroExistente.puntaje, registroExistente.dificultad);
         }
         
         } else {
         let veces_jugadas = 1;
         // Si es la primera vez que el usuario juega esta semilla, crea un nuevo registro
-         registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: veces_jugadas, puntaje: puntaje });
-        guardarDatosPartida(usuario, semillaAGuardar, veces_jugadas, puntaje);
+         registros.push({ usuario: usuario, semilla: semillaAGuardar, vecesJugadas: veces_jugadas, puntaje: puntaje, dificultad: dificultad});
+        guardarDatosPartida(usuario, semillaAGuardar, veces_jugadas, puntaje, dificultad);
 
         }
 
@@ -793,12 +795,13 @@
     }
 
     // Función para enviar datos de la partida al servidor
-    function guardarDatosPartida(nombre, semilla, vecesJugadas, puntaje) {
+    function guardarDatosPartida(nombre, semilla, vecesJugadas, puntaje, dificultad) {
         const formData = new FormData();
         formData.append('nombre', nombre);
         formData.append('semilla', semilla);
         formData.append('vecesJugadas', vecesJugadas);
         formData.append('puntaje', puntaje);
+        formData.append('dificultad', dificultad);
 
         fetch('guardarDatosPartida.php', {
             method: 'POST',
