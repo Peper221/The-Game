@@ -8,3 +8,7 @@ Fecha de revisión: 10/11/2023
 Fecha de revisión: 15/11/2023
 
     - Cambios de visualización de cartas dependiendo de la dificultad.
+    - Modificado el valor inicial para la paginación en la tabla de posiciones.
+    - Fue modificada la tabla de la bd para admitir dificultad.
+    - Se envía la dificultad junto con los otros datos.
+    - En la consultas se recibe la dificultad, y en el front se agrega un campo para que se visualice.
