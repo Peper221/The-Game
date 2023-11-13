@@ -9,8 +9,11 @@ function cargarDatosPagina(pagina) {
     totalData.sort((a, b) => a.posicion - b.posicion);
     
     // Calcula el rango de posiciones para la página actual
-    const startPosition = (pagina - 1) * itemsPerPage;
+    let startPosition = (pagina - 1) * itemsPerPage;
     const endPosition = pagina * itemsPerPage;
+
+    // para que no empiece con el mismo numero que la pag. anterior
+    (startPosition % 10 == 0) ? startPosition = startPosition + 1 : startPosition = startPosition;  
 
     // Filtra los datos para obtener las posiciones en el rango actual
     const paginatedData = totalData.filter(puntaje => {
@@ -22,10 +25,10 @@ function cargarDatosPagina(pagina) {
 
     paginatedData.forEach(puntaje => {
         if (currentGroup && currentGroup.posicion === puntaje.posicion) {
-            currentGroup.nombres.push({ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje, semilla: puntaje.semilla });
+            currentGroup.nombres.push({ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje, semilla: puntaje.semilla, dificultad: puntaje.dificultad });
         } else {
 
-            currentGroup = { posicion: puntaje.posicion, nombres: [{ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje, semilla: puntaje.semilla }] };
+            currentGroup = { posicion: puntaje.posicion, nombres: [{ nombre: puntaje.nombre, vecesJugadas: puntaje.vecesJugadas, puntaje: puntaje.puntaje, semilla: puntaje.semilla, dificultad: puntaje.dificultad }] };
             groupedData.push(currentGroup);
         }
     });
@@ -36,13 +39,15 @@ function cargarDatosPagina(pagina) {
     // Borra cualquier contenido previo en la tabla
     tablaPuntajes.innerHTML = '';
 
+     
     // Procesa los datos y construye la tabla
     groupedData.forEach(group => {
         const fila = document.createElement('tr');
         fila.innerHTML = `
             <td>${group.posicion}</td>
-            <td>${group.nombres.map(jugador => `${jugador.nombre} (semilla: ${jugador.semilla} : ${jugador.vecesJugadas})`).join(', ')}</td>
+            <td>${group.nombres.map(jugador => `${jugador.nombre} (semilla: ${jugador.semilla} , jugada : ${jugador.vecesJugadas} veces)`).join(', ')}</td>
             <td>${group.nombres[0].puntaje}</td>
+            <td>${group.nombres[0].dificultad}</td>
         `;
         tablaPuntajes.appendChild(fila);
     });
