@@ -22,7 +22,8 @@ if ($result->num_rows > 0) {
             'nombre' => $row['nombre'],
             'semilla' => $row['semilla'],
             'vecesJugadas' => $row['veces_jugadas'],
-            'puntaje' => $row['puntaje']
+            'puntaje' => $row['puntaje'],
+            'dificultad' => $row['dificultad'],
         );
     }
 }
