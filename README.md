@@ -12,3 +12,5 @@ Fecha de revisión: 15/11/2023
     - Fue modificada la tabla de la bd para admitir dificultad.
     - Se envía la dificultad junto con los otros datos.
     - En la consultas se recibe la dificultad, y en el front se agrega un campo para que se visualice.
+    - Solucionado problema que al no tener cartas que tener que tirar salga el aviso de que se perdió.
+    - Ya se posicionan las partidas con respecto a la dificultad.
