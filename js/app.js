@@ -16,6 +16,7 @@
     let inferior2 = [];
     let dificultad;
     let maxNumDCartasEnMano;
+    let minCantidadParaTirar;
 
     function seleccionarCarta(carta) {
         if (cartaSeleccionada === carta) {
@@ -250,7 +251,7 @@
     }
     
     function eliminarCartaDeArreglo(origen, carta){
-        let minCantidadParaTirar;
+
         arreglo = origen.id;
         if(arreglo.startsWith('mano')){
             eliminarCartaDeArregloInterno(mano, carta);
@@ -596,9 +597,9 @@
 
     function verificarMovimientosCompatiblesEnPilas() {
         const cartasEnMano = mano.length;
-    
+             
             // Verifica si no puedes jugar ninguna carta en las pilas
-            if(cartasEnMano > 6 || barajado.length == 0){
+            if(cartasEnMano > (maxNumDCartasEnMano - minCantidadParaTirar) || barajado.length == 0){
             const ningunaCompatible = mano.every((carta) => {
                 return !(
                     validarMovimiento(carta, "superior1") ||
@@ -609,16 +610,25 @@
             });
     
             if (ningunaCompatible) {
-                let puntaje = mano.length + barajado.length; 
+                var urlActual = new URL(window.location.href);
 
+                // Verificar si hay parámetros
+                if (urlActual.search) {
+                // Eliminar todos los parámetros de la URL
+                urlActual.search = '';
+
+                // Actualizar la URL en la barra de direcciones sin recargar la página
+                window.history.replaceState({}, document.title, urlActual.href);
+                }
+
+                let puntaje = mano.length + barajado.length; 
+                localStorage.removeItem('datosDelJuego');
                 if(puntaje == 0) {
-                    guardarRegistroDePartida(puntaje);
-                    localStorage.removeItem('datosDelJuego');
+                    guardarRegistroDePartida(puntaje);  
                     AlertaDeJuegoGanado();
                     reproducirSonidoGanaste();
                 } else {
                     guardarRegistroDePartida(puntaje);
-                    localStorage.removeItem('datosDelJuego');
                     AlertaFinDeJuego(puntaje);
                     reproducirSonidoPerdiste();
                 }
@@ -672,40 +682,9 @@
           if (result.isConfirmed) {
              
             window.location.href = '/index.html';
-          } else if (result.isDenied) {
-             mostrarAlertaSemilla(puntaje);
-          }
+          } 
         });
     }
-
-      
-    function mostrarAlertaSemilla(puntaje) {
-        Swal.fire({
-          title: 'Ingresar la semilla de juego',
-          input: 'text',
-          inputAttributes: {
-            autocapitalize: 'off'
-          },
-          showCancelButton: true,
-          confirmButtonText: 'Verificar',
-          cancelButtonText: 'Cancelar',
-          allowOutsideClick: () => false
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const semillaIngresada = result.value;
-            if (!isNaN(semillaIngresada) && semillaIngresada != null && semillaIngresada != '') {
-                
-                reiniciarPartida(semillaIngresada);
-
-            } else {
-              mostrarAlertaSemilla();
-            }
-          } else {
-            mostrarAlertaFinDeJuego(puntaje);
-          }
-        });
-    }
-
 
     function terminarJuego() {
         Swal.fire({
