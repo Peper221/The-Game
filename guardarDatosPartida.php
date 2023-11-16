@@ -40,7 +40,7 @@ if ($resultMax50->num_rows > 0) {
                 $conn->query($updateData);
                 echo "Puntuación actualizada con éxito.";
                  // Actualiza las posiciones en función del puntaje
-                $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+                $query = "SELECT id, puntaje, veces_jugadas, dificultad FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC, dificultad DESC";
                 $result = $conn->query($query);
                     
                 if ($result->num_rows > 0) {
@@ -60,7 +60,7 @@ if ($resultMax50->num_rows > 0) {
                 $conn->query($updateData);
                 echo "Veces jugadas actualizada con éxito.";
 
-                $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+                $query = "SELECT id, puntaje, veces_jugadas, dificultad FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC, dificultad DESC";
                 $result = $conn->query($query);
         
                 if ($result->num_rows > 0) {
@@ -81,7 +81,7 @@ if ($resultMax50->num_rows > 0) {
                 echo "Datos de la partida guardados con éxito.";
         
                 // Actualiza las posiciones en función del puntaje
-                $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+                $query = "SELECT id, puntaje, veces_jugadas, dificultad FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC, dificultad DESC";
                 $result = $conn->query($query);
         
                 if ($result->num_rows > 0) {
@@ -118,7 +118,7 @@ if ($resultExistingRecord->num_rows > 0) {
         $conn->query($updateData);
         echo "Puntuación actualizada con éxito.";
         // Actualiza las posiciones en función del puntaje
-        $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+        $query = "SELECT id, puntaje, veces_jugadas, dificultad FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC, dificultad DESC";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
@@ -138,7 +138,7 @@ if ($resultExistingRecord->num_rows > 0) {
         $conn->query($updateData);
         echo "Veces jugadas actualizada con éxito.";
         
-        $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+        $query = "SELECT id, puntaje, veces_jugadas, dificultad FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC, dificultad DESC";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
@@ -159,7 +159,7 @@ if ($resultExistingRecord->num_rows > 0) {
         echo "Datos de la partida guardados con éxito.";
 
         // Actualiza las posiciones en función del puntaje
-        $query = "SELECT id, puntaje, veces_jugadas FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC";
+        $query = "SELECT id, puntaje, veces_jugadas, dificultad FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC, dificultad DESC";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
