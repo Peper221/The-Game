@@ -1,29 +1,110 @@
 
 /* Estilos seleccion de juego */
-
-.cuerpo {
-    background-color: cornflowerblue;
+ 
+/* Fondo animado para el cuerpo */
+body.cuerpo {
+    background: linear-gradient(45deg, #222, #444, #222, #444); /* Gradiente de fondo */
+    background-size: 400% 400%; /* Tamaño del fondo */
+    animation: gradientAnimation 15s infinite; /* Animación del gradiente */
 }
 
-.custom-div {
-    transition: transform 0.3s, background-color 0.3s;
-}
-.custom-div:hover {
-    transform: scale(1.1);
-    background-color: #f5a623; /* Cambiar el color al pasar el cursor */
+/* Animación del gradiente */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%; /* Posición inicial del gradiente */
+    }
+    50% {
+        background-position: 100% 50%; /* Posición intermedia del gradiente */
+    }
+    100% {
+        background-position: 0% 50%; /* Posición final del gradiente */
+    }
 }
 
-/* Estiliza el elemento h1 con la clase "estilo-h1" */
+
+/* Estilo para el encabezado h1 */
 .estilo-h1 {
-    color: antiquewhite; /* Cambia el color del texto */
-    font-size: 50px; /* Cambia el tamaño de fuente */
-    font-family: Arial, sans-serif; /* Cambia la fuente */
-    text-align: center; /* Centra el texto */
-    text-transform: uppercase; /* Convierte el texto a mayúsculas */
-    text-decoration: underline; /* Subraya el texto */
-    margin-bottom: 10px;
+    color: #4CAF50; /* Color del encabezado */
 }
 
+/* Estilo para los enlaces */
 a {
+    color: #ffffff; /* Color del enlace */
     text-decoration: none !important;
+}
+
+a:hover {
+    color: #4CAF50; /* Color del enlace al pasar el ratón sobre él */
+}
+ /* Estilo para los contenedores personalizados */
+
+ /* Estilo para el texto dentro del custom-div */
+.custom-div h2,
+.custom-div p {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Sombra neón para el texto */
+}
+
+/* Efecto neón para el borde del custom-div */
+.custom-div {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Sombra neón para el borde */
+}
+
+/* Efecto al pasar el ratón sobre el custom-div */
+.custom-div:hover {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Aumenta la intensidad de la sombra neón al pasar el ratón */
+}
+.custom-div {
+    border-radius: 10px; /* Bordes redondeados */
+    transition: background-color 0.3s, transform 0.3s; /* Transición de color de fondo y escala */
+    box-shadow: 0 4px 8px rgba(125, 119, 119, 0.1); /* Sombra sutil */
+    position: relative; /* Para posicionar el borde de abajo correctamente */
+}
+
+/* Línea por debajo que se mueve al pasar el ratón sobre el custom-div */
+.custom-div::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Grosor de la línea */
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff; /* Color de la línea */
+    transform: scaleX(0); /* Inicialmente no visible */
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out; /* Transición para el efecto dinámico */
+}
+
+/* Efecto al pasar el ratón sobre el custom-div */
+.custom-div:hover::after {
+    transform: scaleX(1); /* Hace visible la línea al pasar el ratón */
+    transform-origin: bottom left;
+}
+
+/* Color de fondo para cada custom-div */
+.container .custom-div.bg-primary {
+    background-color: #232b26 !important; /* Verde */
+}
+
+.container .custom-div.bg-secondary {
+    background-color: #232b26 !important; /* Azul */
+}
+
+.container .custom-div.bg-success {
+    background-color: #232b26 !important; /* Rojo */
+}
+
+.container .custom-div.bg-danger {
+    background-color: #232b26 !important; /* Morado */
+}
+
+/* Estilo para el botón de reanudar partida */
+.container .custom-div.bg-info {
+    background-color: #232b26 !important; /* Naranja */
+}
+
+/* Efecto al pasar el ratón sobre el custom-div */
+.container .custom-div:hover {
+    background-color: #34495e !important; /* Nuevo color de fondo al pasar el ratón */
+    transform: scale(1.05); /* Escala ligeramente al pasar el ratón sobre el custom-div */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el ratón */
 }
