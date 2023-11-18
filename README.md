@@ -1,16 +1,24 @@
 # The-Game
-Fecha de revisión: 10/11/2023
+06/09/2023 - se unificaron las ramas desarrollo y desarrollo2 con la rama main.
 
-    - Formulario para iniciar partidad ya admite poner dificultades.
-    - Ya se manda la dificultad al juego para que se ajusten la cantidad de cartas a jugar y cuantas tirar.
-    - Se guarda y se obtiene la dificultad para no perder su referencia si recargamos o nos salimos.
+09/09/2023 - se unificó la rama desarrollo3 con main.
 
-Fecha de revisión: 15/11/2023
+14/09/2023 - se unificó la rama desarrollo4 con main.
 
-    - Cambios de visualización de cartas dependiendo de la dificultad.
-    - Modificado el valor inicial para la paginación en la tabla de posiciones.
-    - Fue modificada la tabla de la bd para admitir dificultad.
-    - Se envía la dificultad junto con los otros datos.
-    - En la consultas se recibe la dificultad, y en el front se agrega un campo para que se visualice.
-    - Solucionado problema que al no tener cartas que tener que tirar salga el aviso de que se perdió.
-    - Ya se posicionan las partidas con respecto a la dificultad.
+28/09/2023 - se unificó la rama desarrollo5 con main.
+
+29/09/2023 - se unificó la rama desarrollo6 con main.
+
+05/10/2023 - se unificó la rama desarrollo7 con main.
+
+10/10/2023 - se unificó la rama desarrollo8 con main.
+
+13/10/2023 - se unificó la rama desarrollo9 con main.
+
+18/10/2023 - se unificó la rama desarrollo10 con main.
+
+31/10/2023 - se unificó la rama desarrollo11 con main.
+
+08/11/2023 - se unificó la rama desarrollo12 con main
+
+18/11/2023 - se unificó la ramma desarrollo13 con main.
