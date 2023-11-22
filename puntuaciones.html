@@ -6,11 +6,172 @@
     <title>Tabla de puntaciones</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
+
+<style>
+       
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto 0 auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, #4CAF50, #ffffff, #4CAF50);
+    border-image-slice: 1;
+    border-radius: 15px; /* Bordes redondeados */
+    animation: borderAnimation 10s linear infinite;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+h1 {
+    color: #4CAF50;
+    font-size: 28px;
+}
+
+.table {
+    background-color: #333;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+.table thead th {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+.table tbody tr:hover {
+    background-color: #2c2c2c;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.page-item.active .page-link {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.page-link {
+    color: #4CAF50;
+}
+
+.page-link:hover {
+    color: #ffffff;
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+@keyframes borderAnimation {
+    0% {
+        border-image-source: linear-gradient(to right, #4CAF50, #ffffff, #4CAF50);
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    }
+    25% {
+        border-image-source: linear-gradient(to bottom, #4CAF50, #ffffff, #4CAF50);
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    }
+    50% {
+        border-image-source: linear-gradient(to left, #4CAF50, #ffffff, #4CAF50);
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    }
+    75% {
+        border-image-source: linear-gradient(to top, #4CAF50, #ffffff, #4CAF50);
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    }
+    100% {
+        border-image-source: linear-gradient(to right, #4CAF50, #ffffff, #4CAF50);
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    }
+}
+
+.table {
+    background-color: #333;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+.table thead th {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #2c2c2c; /* Línea entre filas */
+}
+
+.table tbody tr:hover {
+    background-color: #2c2c2c;
+}
+
+.table tbody td {
+    border: none; /* Elimina los bordes predeterminados de las celdas */
+    background-color: #1f1f1f;
+    color: white;
+    text-align: center;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.page-item.active .page-link {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.page-link {
+    color: #4CAF50;
+}
+
+.page-link:hover {
+    color: #ffffff;
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.botonActivo {
+    --glow-color: rgb(176, 255, 233);
+    --glow-spread-color: rgba(123, 255, 196, 0.781);
+    --enhanced-glow-color: rgb(206, 255, 250);
+    --btn-color: rgb(61, 136, 67);
+    border: 1px solid var(--glow-color);
+    color: var(--glow-color);
+    font-size: 15px;
+    font-weight: bold;
+    background-color: var(--btn-color);
+    border-radius: 1em;
+    outline: none;
+    box-shadow: 0 0 .5em .15em var(--glow-color),
+                0 0 2em .5em var(--glow-spread-color),
+                inset 0 0 .50em .15em var(--glow-color);
+    text-shadow: 0 0 .5em var(--glow-color);
+    position: relative;
+    transition: all 0.3s;
+    padding: 10px;
+}
+
+</style>
 <body>
  
     <div class="container mt-5">
         <a href="index.html">
-            <button class="btn btn-primary">Atrás</button>
+            <button class="botonActivo">Atrás</button>
         </a>
         <h1 class="text-center">Tabla de Puntajes</h1>
         <div class="table-responsive"> <!-- Hacer la tabla responsive -->
