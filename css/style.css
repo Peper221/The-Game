@@ -1,9 +1,5 @@
 
 
-body {
-
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,120,140,1) 0%, rgba(0,0,0,0.5215336134453781) 100%);
-}
 
 .superior {
     display: flex;
@@ -28,8 +24,6 @@ body {
 }
 
  .mano {
-    margin-top: 20px;
-    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -67,14 +61,33 @@ body {
 }
 
 .espacio-carta {
-    border: 5px solid seashell;
     width: 97px;
     height: 151px;
-    margin: 10;
-    overflow: hidden; /*evitar desborde de la carta en el contenedor*/
-    position: static;
+    margin: 5px; /* Asegúrate de especificar la unidad (por ejemplo, px) después del valor numérico */
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .espacio-carta:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 5px solid #333; /* Color de borde oscuro */
+    border-radius: 10px;
+    z-index: -1; /* Para colocar el borde detrás del contenido */
   }
  
+  .espacio-carta.selected {
+    border: 5px solid #61dafb; /* Color de borde para el estado seleccionado */
+  }
+  
+  .espacio-carta.selected:before {
+    border-color: #61dafb; /* Color de borde para el estado seleccionado */
+  }
 
   @media (min-width: 844px) {
     
@@ -158,7 +171,7 @@ body {
     }
 
     .mano {
-        margin-top: 50px;
+        margin-top: 15px;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 0;
@@ -215,14 +228,96 @@ body {
 
   }
 
+  /* .cartaHTML {
+    height: 100%;
+  }
 
-  .parrafo {
+  .contenido {
     margin: 0;
-    height: 151px;
+    height: 100%;
     width: 100%;
     background-color: aqua;
-}
+} */
+.cartaHTML {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border-radius: 10px;
+  }
+  
+  .contenido {
+    -webkit-text-stroke: 1px black;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #333;  
+    color: #fff;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    user-select: none;
+    position: relative;
+  }
 
+  .numero-esquina {
+    -webkit-text-stroke: 1px black;
+    position: absolute;
+    font-size: 15px;
+    color: #ffffff;
+    top: 5px;
+    left: 5px;
+  }
+  
+  .divisoria {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #441a1a;
+    top: 25px; /* Ajusta la posición según tus necesidades */
+    left: 0;
+  }
+  
+  /* Colores para cada década */
+  .cartaHTML[data-decada="1"] .contenido {
+    background-color: #242424; /* Azul oscuro para la década 1 */
+  }
+  .cartaHTML[data-decada="2"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  /* Añade más colores para las otras décadas */
+  .cartaHTML[data-decada="3"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  .cartaHTML[data-decada="4"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  .cartaHTML[data-decada="5"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  .cartaHTML[data-decada="6"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  .cartaHTML[data-decada="7"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  .cartaHTML[data-decada="8"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  .cartaHTML[data-decada="9"] .contenido {
+    background-color: #242424; /* Azul más claro para la década 2 */
+  }
+  .cartaHTML[data-decada="10"] .contenido {
+    background-color: #242424   ; /* Azul más claro para la década 2 */
+  }
+  /* Efecto de hover */
+  .cartaHTML:hover {
+    transform: scale(1.1);
+  }
 
 .boton {
     padding: 10px;
