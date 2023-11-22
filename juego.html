@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Game</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style2.css">
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <style>
@@ -58,17 +59,86 @@
             inset 0 0 .75em .25em var(--glow-color);
     }
 
+    .contenedor-botones {
+      position: relative;
+      display: inline-block;
+    }
+
+    .boton-menu {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      border-radius: 5px;
+    }
+
+    .menu-item {
+      background-color: #333;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .menu-item:hover {
+      background-color: #555;
+    }
+
+    .menu button {
+      background-color: #333;
+      color: #fff;
+      margin: 5px 0;
+      width: 100%;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .menu button:disabled {
+      opacity: 0.7;
+    }
+
+    .menu button:hover {
+      background-color: #555;
+    }
 </style>
-<body>
+<body class="cuerpo">
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
     <main class="tablero">
-        <div class="d-md-flex flex-md-row flex-column mb-2 mt-2">
+        <!-- <div class="d-md-flex flex-md-row flex-column mb-2 mt-2">
             <a href="index.html">
                 <button class="btn btn-primary custom-margin-right">Salir al menú</button>
             </a>
             <button class="btn btn-danger custom-margin-right" onclick="terminarJuego()">Terminar juego</button>
             <button disabled class="btn btn-info custom-margin-right botonActivo" id="btnTurno"> Terminar turno</button>
             <button disabled class="btn btn-secondary botonActivo" id="btnDeshacer">Deshacer</button>
-        </div>
+        </div> -->
+        <div class="contenedor-botones">
+            <button class="boton-menu" onclick="toggleMenu()">Mostrar Menú</button>
+            <div class="menu" id="menu">
+              <a href="index.html" class="menu-item">
+                <button class="btn btn-custom">Salir al menú</button>
+              </a>
+              <button class="btn btn-custom" onclick="terminarJuego()">Terminar juego</button>
+              <button disabled class="btn btn-custom botonActivo" id="btnTurno">Terminar turno</button>
+              <button disabled class="btn btn-custom botonActivo" id="btnDeshacer">Deshacer</button>
+            </div>
+          </div>
          
         <div class="contenedor">
             <div class="superior">
