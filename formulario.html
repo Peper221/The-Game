@@ -7,23 +7,82 @@
     <link rel="stylesheet" href="css/style2.css">
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
-<style>
-    
-    body {
-        background-color: cornflowerblue;
-    }
+<style>  
     .container {
         margin-top: 100px;
         width: 70%;
     }
+    label {
+      color: white;
+    }
+
+    .chico {
+      color: wheat;
+    }
+    .botonActivo {
+    --glow-color: rgb(176, 255, 233);
+    --glow-spread-color: rgba(123, 255, 196, 0.781);
+    --enhanced-glow-color: rgb(206, 255, 250);
+    --btn-color: rgb(61, 136, 67);
+    border: 1px solid var(--glow-color);
+    color: var(--glow-color);
+    font-size: 15px;
+    font-weight: bold;
+    background-color: var(--btn-color);
+    border-radius: 1em;
+    outline: none;
+    box-shadow: 0 0 .5em .15em var(--glow-color),
+            0 0 2em .5em var(--glow-spread-color),
+            inset 0 0 .50em .15em var(--glow-color);
+    text-shadow: 0 0 .5em var(--glow-color);
+    position: relative;
+    transition: all 0.3s;
+    padding: 10px;
+    }
+
+    .botonActivo2 {
+    --glow-color: rgb(176, 255, 233);
+    --glow-spread-color: rgba(123, 171, 255, 0.781);
+    --enhanced-glow-color: rgb(206, 228, 255);
+    --btn-color: rgb(61, 105, 136);
+    border: 1px solid var(--glow-color);
+    color: var(--glow-color);
+    font-size: 15px;
+    font-weight: bold;
+    background-color: var(--btn-color);
+    border-radius: 1em;
+    outline: none;
+    box-shadow: 0 0 .5em .15em var(--glow-color),
+                0 0 2em .5em var(--glow-spread-color),
+                inset 0 0 .50em .15em var(--glow-color);
+    text-shadow: 0 0 .5em var(--glow-color);
+    position: relative;
+    transition: all 0.3s;
+    padding: 10px;
+}
+
+        /* Estilos para el botón en dispositivos grandes */
+        @media (min-width: 720px) {
+            button {
+                width: auto; /* Ancho automático */
+            }
+        }
+
+        /* Estilos para el botón en dispositivos pequeños */
+        @media (max-width: 719px) {
+            button {
+                width: 100%; /* Ancho completo */
+            }
+        }
 </style>
-<body>
+<body class="cuerpo">
     <script>
         function mostrarCampos() {
           const opcion = new URLSearchParams(window.location.search).get('opcion');
           const campoNombre = document.getElementById("nombre");
           const campoSemilla = document.getElementById("semilla");
-    
+          const btn = document.getElementById('enviar');
+ 
           if (opcion === "normal") {
             campoNombre.style.display = "block";
             campoSemilla.parentElement.style.display = "none";
@@ -31,49 +90,53 @@
             campoNombre.style.display = "block";
             campoSemilla.style.display = "block";
           }
+          btn.addEventListener('click', () => {
+            const nombre = campoNombre.value.trim();
+            const semilla = campoSemilla.value.trim();
+            const dificultad = document.getElementById("dificultades").value;
 
-
-          // Habilitar el botón Enviar cuando los campos estén validados
-        document.getElementById("miFormulario").addEventListener("input", function () {
-          const nombre = document.getElementById("nombre").value;
-          const semilla = document.getElementById("semilla").value;
-          const dificultad = document.getElementById("dificultades").value;
-          const enviar = document.getElementById("enviar");
-
-          const nombreValido = nombre.trim() !== "" && nombre.length <= 8;
-          const semillaValida = /^\d{1,4}$/.test(semilla) && semilla !== "0";
-          const btn = document.getElementById('enviar');
-          if ((opcion === "normal" && nombreValido && (dificultad == 2 || dificultad == 1)) || (opcion === "manual" && nombreValido && semillaValida && (dificultad == 2 || dificultad == 1))) {
-            enviar.style.display = "block";
-          } else {
-            enviar.style.display = "none";
-          }
-
-            btn.addEventListener('click', ()=>{
-                (semillaValida) ? window.location.href = `/juego.html?nombre=${nombre}&semilla=${semilla}&dificultad=${dificultad}`
-                 : window.location.href = `/juego.html?nombre=${nombre}&semilla=aleatoria&dificultad=${dificultad}`
-            });
-            
-        });
-
-        
+            if (!nombre || (opcion === "manual" && !semilla) || !dificultad) {
+              Swal.fire({
+                title: 'Debes de ingresar datos',
+                text: 'No has completado el llenado de los datos',
+                icon: 'warning',
+                confirmButtonText: 'Sí, empezar nueva partida',
+              });
+            } else {
+              const semillaValida = /^[0-9]{1,4}$/.test(semilla) && semilla !== "0";
+              const url = `/juego.html?nombre=${nombre}&semilla=${semillaValida ? semilla : 'aleatoria'}&dificultad=${dificultad}`;
+              
+              Swal.fire({
+                title: '¡Perfecto!',
+                text: 'Datos ingresados correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = url;
+                }
+              });
+            }
+          });
         }
-    
-        document.addEventListener("DOMContentLoaded",()=>{
+
+        document.addEventListener("DOMContentLoaded", () => {
             mostrarCampos();
         });
-
-         
       </script>
 
-        <h1 class="mt-5 estilo-h1">Ingrese datos para jugar</h1>
+         
 
         <div class="container">
+          <a href="index.html">
+            <button class="botonActivo">Salir</button>
+          </a>
+          <h1 class="mt-5 estilo-h1">Ingrese datos para jugar</h1>
             <form id="miFormulario">
                 <div class="form-group">
                   <label for="nombre">Ingrese usuario</label>
                   <input type="text" class="form-control" id="nombre" aria-describedby="nombre" placeholder="Ingrese nombre">
-                  <small id="nombre" class="form-text text-muted">Ingrese nombre de usuario</small>
+                  <small class="chico" id="nombre" class="form-text text-muted">Ingrese nombre de usuario</small>
                   
                   <br>
                   <label for="dificultad">Ingrese Dificultad</label>
@@ -82,15 +145,20 @@
                     <option value="1">Normal</option>
                     <option value="2">Experto</option>
                   </select>
-                  <small id="dificultad" class="form-text text-muted">Ingrese dificultad de la partida</small>
+                  <small class="chico" id="dificultad" class="form-text text-muted">Ingrese dificultad de la partida</small>
                 </div>
                 <div class="form-group">
                     <label for="semilla">Semilla</label>
                     <input type="number" class="form-control" id="semilla" placeholder="Semilla">
                 </div>
                 
-                <button class="btn btn-primary mt-5" type="button" id="enviar" style="display: none;">Jugar</button>
+                <!-- <button class="botonActivo2 mt-5" type="button" id="enviar" style="display: none;">Jugar</button> -->
+              
+                <button class="botonActivo2 d-sm-block mt-5" type="button" id="enviar">Jugar</button>
+           
+              </div>
             </form>
         </div>
+        <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
