@@ -21,12 +21,12 @@
     function seleccionarCarta(carta) {
         if (cartaSeleccionada === carta) {
             // Si se hace clic en la misma carta dos veces, deseleccionarla
-            carta.style.border = "none"; // Restaura el borde
+            carta.parentNode.classList.toggle('selected'); // Restaura el borde
             cartaSeleccionada = null; // Reinicia la variable de selección
         } else if (cartaSeleccionada === null && !["superior1", "superior2", "inferior1", "inferior2"].includes(carta.parentNode.id)) {
             // Si no hay una carta seleccionada, selecciona esta
             cartaSeleccionada = carta;
-            carta.style.border = "2px solid red"; // Cambia el borde para indicar selección
+            carta.parentNode.classList.toggle('selected'); // Cambia el borde para indicar selección
             reproducirSonidoSeleccionarCarta();
         } else {
             // Si ya hay una carta seleccionada, intenta moverla a este espacio carta
@@ -52,7 +52,7 @@
             if (espacioId === "superior1" || espacioId === "superior2" || espacioId === "inferior1" || espacioId === "inferior2") {
               
                 if (validarMovimiento(cartaSeleccionada, espacioId)) {
-
+                        cartaSeleccionada.parentNode.classList.toggle('selected');
                         eliminarCartaDeArreglo(cartaSeleccionada.parentNode, cartaSeleccionada);
                         // Registra el movimiento en el arreglo
                          movimientosDuranteTurno.push(carta);
@@ -105,7 +105,9 @@
                               
                         }
 
+                        
                         cartaSeleccionada = null; // Reinicia la variable
+                        
                         // Agregar carta al arreglo correspondiente
                         switch (espacioId) {
                             case "superior1":
@@ -132,7 +134,7 @@
 
                 } else {
                     reproducirSonidoEquivocado();
-                    cartaSeleccionada.style.border = 'none';
+                    cartaSeleccionada.parentNode.classList.toggle('selected');
                     cartaSeleccionada = null; // para evitar doble llamado del alert
                     const Toast = Swal.mixin({
                         toast: true,
@@ -361,8 +363,8 @@
                 // Restaura el atributo top del segundo hijo de la columna
                 if (j === 1) {
                     const segundoElemento = columna.querySelector('.espacio-carta:nth-child(2)');
-                    if (segundoElemento) {
-                        segundoElemento.style.top = '-130px'; // Restaura el valor original
+                    if (segundoElemento && !pantallaGrande) {
+                        segundoElemento.style.top = '-75px'; // Restaura el valor original
                     }
                 }
             }
@@ -391,7 +393,7 @@
                         
                     } else {
                          columna.style.display = 'grid';
-
+                        
                     }
                 }
             }
@@ -409,6 +411,7 @@
     btnDeshacer.onclick = () => {
 
         if(cartaSeleccionada != null){
+            cartaSeleccionada.parentNode.classList.toggle('selected');
             cartaSeleccionada = null;
         }
  
@@ -539,14 +542,26 @@
     function crearCartaHTML (carta){
         //crear carta en HTML
         const cartaHTML = document.createElement("div");
-        const imagen = document.createElement('p');
-        imagen.classList.add('parrafo');
+        const contenido = document.createElement('p');
+        const numeroEsquina = document.createElement('div');
+        const divisoria = document.createElement('div');
+        cartaHTML.classList.add('cartaHTML');
+        contenido.classList.add('contenido');
+        numeroEsquina.classList.add('numero-esquina');
+        divisoria.classList.add('divisoria');
         cartaHTML.onclick = () => {
             seleccionarCarta(cartaHTML);
         }
         cartaHTML.dataset.numero = carta.numero;
-        imagen.innerText = carta.img;
-        cartaHTML.appendChild(imagen);
+        contenido.innerText = carta.img;
+         // Asignar la década a la que pertenece la carta
+        const decada = Math.floor((carta.numero - 1) / 10) + 1;
+        cartaHTML.dataset.decada = decada;
+        numeroEsquina.innerText = carta.numero;
+
+        contenido.appendChild(numeroEsquina);
+        contenido.appendChild(divisoria);
+        cartaHTML.appendChild(contenido);
         return cartaHTML;
     }
 
