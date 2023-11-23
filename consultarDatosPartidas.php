@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // Realiza la consulta para obtener los mejores 50 puntajes
-$query = "SELECT * FROM partidas ORDER BY puntaje ASC LIMIT 50";
+$query = "SELECT * FROM partidas ORDER BY posicion ASC LIMIT 50";
 $result = $conn->query($query);
 
 $puntajes = array();
