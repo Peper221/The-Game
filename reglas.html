@@ -68,13 +68,34 @@
             transition: all 0.3s;
             padding: 10px;
             }
+
+        /* Estilos para el botón en dispositivos grandes */
+        @media (min-width: 720px) {
+            button {
+                width: 100px; /* Ancho automático */
+            }
+        }
+
+        /* Estilos para el botón en dispositivos pequeños */
+        @media (max-width: 719px) {
+            button {
+              
+                width: 100%; /* Ancho completo */
+            }
+            a{
+                width: 100%;
+            }
+        }
+        .botonInferior {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="index.html">
-            <button class="botonActivo">Salir</button>
-        </a>
+ 
         <h1>Reglas del Juego de Cartas</h1>
         <p>Los jugadores del juego intentan descartar las 98 cartas del mazo en cuatro pilas de descarte para poder ganar, pero deben hacerlo de la manera correcta.</p>
 
@@ -85,6 +106,13 @@
         <p>Después de que un jugador termina su turno, vuelve a llenar su mano del mazo. Durante el juego, los jugadores no pueden revelar los números exactos que tienen en sus manos, pero pueden advertir a otros que no jueguen en ciertas pilas de descarte o hacer sugerencias de juego.</p>
 
         <p>Una vez que se vacía el mazo, los jugadores solo deben jugar al menos una carta por turno. ¡Si juegas las 98 cartas, ganas! Si lo haces bien, las reglas sugieren que juegues al menos tres cartas por turno para aumentar el desafío.</p>
+        
+        <div class="botonInferior">
+            <a href="index.html">
+                <button class="botonActivo">Salir</button>
+            </a>
+        </div>
+ 
     </div>
 </body>
 </html>
