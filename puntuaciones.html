@@ -166,6 +166,20 @@ h1 {
     padding: 10px;
 }
 
+        /* Estilos para el botón en dispositivos grandes */
+        @media (min-width: 720px) {
+            button {
+                width: 100px; /* Ancho automático */
+            }
+        }
+
+        /* Estilos para el botón en dispositivos pequeños */
+        @media (max-width: 719px) {
+            button {
+                width: 100%; /* Ancho completo */
+            }
+        }
+
 </style>
 <body>
  
