@@ -64,7 +64,7 @@
         /* Estilos para el botón en dispositivos grandes */
         @media (min-width: 720px) {
             button {
-                width: auto; /* Ancho automático */
+                width: 100px; /* Ancho automático */
             }
         }
 
@@ -74,33 +74,44 @@
                 width: 100%; /* Ancho completo */
             }
         }
+    
+    .botonInferior {
+      display: flex;
+      justify-content: flex-end;
+    }
 </style>
 <body class="cuerpo">
     <script>
         function mostrarCampos() {
           const opcion = new URLSearchParams(window.location.search).get('opcion');
           const campoNombre = document.getElementById("nombre");
-          const campoSemilla = document.getElementById("semilla");
+          let campoSemilla = document.getElementById("semilla");
+          let semilla;
           const btn = document.getElementById('enviar');
  
           if (opcion === "normal") {
+            semilla = 'Aleatorio';
             campoNombre.style.display = "block";
             campoSemilla.parentElement.style.display = "none";
           } else if (opcion === "manual") {
+             
             campoNombre.style.display = "block";
-            campoSemilla.style.display = "block";
+            campoSemilla.parentElement.style.display = "block";
           }
           btn.addEventListener('click', () => {
             const nombre = campoNombre.value.trim();
-            const semilla = campoSemilla.value.trim();
+            semilla = campoSemilla.value.trim();
             const dificultad = document.getElementById("dificultades").value;
-
-            if (!nombre || (opcion === "manual" && !semilla) || !dificultad) {
+            const isNombreValido = nombre.length >= 1 && nombre.length <= 8;
+            const isSemillaValida = /^[0-9]{1,4}$/.test(semilla) && semilla !== "0";
+            const isDificultadValida = dificultad === "1" || dificultad === "2";
+          
+            if (!isNombreValido || !isDificultadValida || (opcion === "manual" && !isSemillaValida)) {
               Swal.fire({
-                title: 'Debes de ingresar datos',
-                text: 'No has completado el llenado de los datos',
+                title: 'Datos incorrectos',
+                text: 'Debes ingresar los datos correctamente',
                 icon: 'warning',
-                confirmButtonText: 'Sí, empezar nueva partida',
+                confirmButtonText: 'Aceptar',
               });
             } else {
               const semillaValida = /^[0-9]{1,4}$/.test(semilla) && semilla !== "0";
@@ -110,7 +121,7 @@
                 title: '¡Perfecto!',
                 text: 'Datos ingresados correctamente.',
                 icon: 'success',
-                confirmButtonText: 'Aceptar',
+                confirmButtonText: 'Jugar',
               }).then((result) => {
                 if (result.isConfirmed) {
                   window.location.href = url;
@@ -136,7 +147,7 @@
                 <div class="form-group">
                   <label for="nombre">Ingrese usuario</label>
                   <input type="text" class="form-control" id="nombre" aria-describedby="nombre" placeholder="Ingrese nombre">
-                  <small class="chico" id="nombre" class="form-text text-muted">Ingrese nombre de usuario</small>
+                  <small class="chico" id="nombre" class="form-text text-muted">Ingrese nombre de usuario. Máximo 8 letras.</small>
                   
                   <br>
                   <label for="dificultad">Ingrese Dificultad</label>
@@ -150,11 +161,14 @@
                 <div class="form-group">
                     <label for="semilla">Semilla</label>
                     <input type="number" class="form-control" id="semilla" placeholder="Semilla">
+                    <small class="chico" class="form-text text-muted">Ingrese una semilla. Valor entre 1 y 9999.</small>
+
                 </div>
                 
-                <!-- <button class="botonActivo2 mt-5" type="button" id="enviar" style="display: none;">Jugar</button> -->
-              
-                <button class="botonActivo2 d-sm-block mt-5" type="button" id="enviar">Jugar</button>
+                <div class="botonInferior">
+                  <button class="botonActivo2 d-sm-block mt-5" type="button" id="enviar">Jugar</button>
+                </div>
+                 
            
               </div>
             </form>
