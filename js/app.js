@@ -606,8 +606,9 @@
                 
              console.log(barajado);
              console.log('barajado ' + barajado.length);
+             guardarDatosDelJuego();
             verificarMovimientosCompatiblesEnPilas();
-            guardarDatosDelJuego();
+        
     }
 
     function verificarMovimientosCompatiblesEnPilas() {
@@ -713,46 +714,11 @@
               let puntaje = mano.length + barajado.length; 
               guardarRegistroDePartida(puntaje);
               localStorage.removeItem('datosDelJuego');
-              window.location.href = '/index.html';
+
+              //window.location.href = '/index.html';
             }  
           });
     }
-
-    function reiniciarPartida(semillaNueva) {
-        // Limpia el almacenamiento local
-        localStorage.removeItem('datosDelJuego');
-
-        // Restablece todas las variables del juego a sus valores iniciales
-        superior1 = [];
-        superior2 = [];
-        inferior1 = [];
-        inferior2 = [];
-        mazo = [];
-        mano = [];
-        semilla = semillaNueva;
-        inicioPartida = true;
-        actualizarManoHTML();
-        mostrarColumnasEhijos();
-        actualizarHTML(superior1, 'superior1');
-        actualizarHTML(superior2, 'superior2');
-        actualizarHTML(inferior1, 'inferior1');
-        actualizarHTML(inferior2, 'inferior2');
-        mazo = crearMazo();
-        // Baraja nuevamente las cartas con la misma semilla
-        barajado = barajarCartas(mazo, semilla);
-        
-        // Vuelve a servir las cartas en la mano
-        servirCartasEnManoArreglo();
-    
-        // Actualiza la interfaz de usuario
-        ponerCartasEnManoHTML();
-        guardarDatosDelJuego();
-        imprimirSemilla();
-        actualizarManoHTML();
-
-    
-    }
-    
 
     function guardarRegistroDePartida(puntaje){
         // Al finalizar una partida
