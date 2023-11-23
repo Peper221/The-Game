@@ -99,7 +99,30 @@ if ($resultMax50->num_rows > 0) {
             }
         }
     } else {
-        echo "El puntaje no supera el récord de la posición 50.";
+           // Verificar si ya existe un registro con el mismo usuario y semilla
+        $sqlExistingRecord = "SELECT * FROM partidas WHERE nombre = '$nombre' AND semilla = '$semilla'";
+        $resultExistingRecord = $conn->query($sqlExistingRecord);
+        if ($resultExistingRecord->num_rows > 0) {
+                $rowExistingRecord = $resultExistingRecord->fetch_assoc();
+                $nuevasVecesJugadas = $rowExistingRecord['veces_jugadas'] + 1;
+                $updateData = "UPDATE partidas SET veces_jugadas = $nuevasVecesJugadas WHERE id = " . $rowExistingRecord['id'];
+                $conn->query($updateData);
+                echo "Veces jugadas actualizada con éxito.";
+
+                $query = "SELECT id, puntaje, veces_jugadas, dificultad FROM partidas ORDER BY puntaje ASC, veces_jugadas ASC, dificultad DESC";
+                $result = $conn->query($query);
+        
+                if ($result->num_rows > 0) {
+                $posicion = 1;
+                while ($row = $result->fetch_assoc()) {
+                    $id = $row['id'];
+                    $updateSql = "UPDATE partidas SET posicion = $posicion WHERE id = $id";
+                    $conn->query($updateSql);
+                    $posicion++;
+                }
+                echo "Posición actualizada.";
+             }
+        }
     }
 } else {
 
