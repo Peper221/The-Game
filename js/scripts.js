@@ -3,34 +3,34 @@
 let currentPage = 1; // Página actual
 const itemsPerPage = 10; // Cantidad de posiciones por página
 let totalData = []; //para almacenar todos los datos
+let filtroNombre = '';
 
+ 
 const buscadorInput = document.getElementById('buscador');
-
 buscadorInput.addEventListener('input', () => {
-    const filtroNombre = buscadorInput.value.trim();
-    cargarDatosPagina(currentPage, filtroNombre);
+     
+    filtroNombre = buscadorInput.value.trim();
+    console.log('Filtro de Nombre:', filtroNombre);
+    cargarDatosPagina(1);
 });
 
 // Función para cargar y mostrar los datos de la página actual
-// Función para cargar y mostrar los datos de la página actual
-function cargarDatosPagina(pagina, filtroNombre) {
+function cargarDatosPagina(pagina) {
     totalData.sort((a, b) => a.posicion - b.posicion);
 
     // Calcula el rango de posiciones para la página actual
     let startPosition = (pagina - 1) * itemsPerPage;
     const endPosition = pagina * itemsPerPage;
     (startPosition % 10 === 0) ? startPosition = startPosition + 1 : startPosition = startPosition;
-
-    console.log(totalData);
-    // Filtra los datos para obtener las posiciones en el rango actual
+    // Filtra los datos por nombre si hay un filtro aplicado
     const datosFiltrados = filtroNombre
-    ? totalData.filter(puntaje => puntaje.nombre.toLowerCase().includes(filtroNombre.toLowerCase()))
-    : totalData;
-        console.log('Datos filtrados:', datosFiltrados);
+        ? totalData.filter(puntaje => 
+            puntaje.nombre.toLowerCase().includes(filtroNombre.toLowerCase()))
+        : totalData;
 
     const paginatedData = datosFiltrados.filter(puntaje => puntaje.posicion >= startPosition && puntaje.posicion <= endPosition);
-    console.log('Datos paginados:', paginatedData); 
-    // Agrupa los jugadores con la misma posición
+
+         // Agrupa los jugadores con la misma posición
     const groupedData = [];
     let currentGroup = null;
 
@@ -81,7 +81,6 @@ function actualizarPaginador(filtroNombre) {
             pageButton.textContent = i;
             pageButton.classList.add('page-link');
 
-            // Agrega o quita la clase 'active' al botón de paginación según la página actual
             if (i === currentPage) {
                 pageButton.classList.add('active');
             } else {
