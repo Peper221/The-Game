@@ -28,7 +28,13 @@
             cartaSeleccionada = carta;
             carta.parentNode.classList.toggle('selected'); // Cambia el borde para indicar selección
             reproducirSonidoSeleccionarCarta();
-        } else {
+        } else if(cartaSeleccionada !== null && carta.parentNode.id.includes('mano')){
+                cartaSeleccionada.parentNode.classList.toggle('selected');
+                cartaSeleccionada = carta;
+                carta.parentNode.classList.toggle('selected');
+                reproducirSonidoSeleccionarCarta();
+        }
+         else {
             // Si ya hay una carta seleccionada, intenta moverla a este espacio carta
             moverCarta(carta);
         }
@@ -343,9 +349,15 @@
     
             // Cambiar el atributo display dependiendo del tamaño de la pantalla
             if (pantallaGrande) {
+                if(dificultad == 2 && (document.querySelector('.columna4') == columna)){
+                    columna.style.display = 'block';
+                    
+                    columna.style.maxWidth = '94px';
+                } else{
                 columna.style.display = 'grid';
                 columna.style.gridTemplateColumns = 'repeat(2, 1fr)';
                 columna.style.maxWidth = '200px';
+                }
             } else {
                 columna.style.display = 'block';
                 columna.style.gridTemplateColumns = ''; // Restablecer las columnas para dispositivos pequeños
@@ -715,7 +727,7 @@
               guardarRegistroDePartida(puntaje);
               localStorage.removeItem('datosDelJuego');
 
-              //window.location.href = '/index.html';
+              window.location.href = '/index.html';
             }  
           });
     }
