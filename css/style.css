@@ -67,6 +67,7 @@
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+    border: 1px solid #9a1919;
   }
   
   .espacio-carta:before {
@@ -154,7 +155,7 @@
 
     .superior .clase {
         position: relative;
-        top: -70px;
+        top: -90px;
     }
     
  
@@ -222,7 +223,7 @@
 
     .inferior .clase {
         position: relative;
-        top: -70px;
+        top: -90px;
     }
     
 
