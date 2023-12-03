@@ -56,7 +56,7 @@ function cargarDatosPagina(pagina) {
             <td>${group.posicion}</td>
             <td>${group.nombres.map(jugador => `${jugador.nombre} (semilla: ${jugador.semilla} , jugada : ${jugador.vecesJugadas} veces)`).join(', ')}</td>
             <td>${group.nombres[0].puntaje}</td>
-            <td>${group.nombres[0].dificultad}</td>
+            <td>${(group.nombres[0].dificultad == 1) ? 'Normal' : 'Dificil'}</td>
         `;
         tablaPuntajes.appendChild(fila);
     });
